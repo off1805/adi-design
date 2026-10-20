@@ -1,26 +1,89 @@
 @import "tailwindcss";
 
+/* ADI Design — palette tirée du logo (noir, rouge, crème) et des réalisations (bois, LED ambrées) */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ink: #0e0d0c;
+  --ink-2: #1a1816;
+  --ink-3: #2a2622;
+  --red: #c8102e;
+  --red-deep: #9e0b22;
+  --paper: #faf8f5;
+  --cream: #f6f1ea;
+  --sand: #ebe1d3;
+  --stone: #d8cab6;
+  --wood: #a86b3c;
+  --glow: #e3b26b;
+  --muted: #6e655c;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-red: var(--red);
+  --color-red-deep: var(--red-deep);
+  --color-paper: var(--paper);
+  --color-cream: var(--cream);
+  --color-sand: var(--sand);
+  --color-stone: var(--stone);
+  --color-wood: var(--wood);
+  --color-glow: var(--glow);
+  --color-muted: var(--muted);
+  --font-sans: var(--font-manrope);
+  --font-script: var(--font-kaushan);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--red);
+  color: #fff;
+}
+
+/* Grain subtil pour l'effet "éditorial" */
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Trait rouge manuscrit, écho au soulignement du logo */
+.brush-underline {
+  position: relative;
+  white-space: nowrap;
+}
+.brush-underline::after {
+  content: "";
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  bottom: -0.12em;
+  height: 0.28em;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 20' preserveAspectRatio='none'%3E%3Cpath d='M2 15 C 80 4, 200 2, 298 9 L 296 12 C 200 7, 90 10, 4 18 Z' fill='%23c8102e'/%3E%3C/svg%3E")
+    no-repeat center / 100% 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@keyframes fp-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
 }
