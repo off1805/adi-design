@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { img } from "../../lib/data";
-import { gsap, MOTION_OK, onIntroDone, padMasks, SplitText, useGSAP } from "../../lib/gsap";
+import { gsap, MOTION_OK, padMasks, SplitText, useGSAP } from "../../lib/gsap";
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -17,15 +17,12 @@ export function Hero() {
         gsap.set(split.chars, { yPercent: 110 });
         gsap.set(".hero-fade", { autoAlpha: 0, y: 20 });
 
-        // Entrée : lancée à la fin de l'intro
-        const intro = gsap
-          .timeline({ paused: true })
+        // Entrée : lancée dès le chargement de la page
+        gsap
+          .timeline({ delay: 0.1 })
           .to(".hero-media", { scale: 1.08, duration: 2.2, ease: "expo.out" })
           .to(split.chars, { yPercent: 0, duration: 1.2, stagger: 0.035, ease: "expo.out" }, 0.15)
           .to(".hero-fade", { autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.1 }, 0.6);
-        const stop = onIntroDone(() => intro.play());
-
-        return stop;
       });
     },
     { scope: ref },
