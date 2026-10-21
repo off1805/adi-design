@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { gsap, MOTION_OK, useGSAP } from "../../lib/gsap";
 import { img } from "../../lib/data";
 import { Counter } from "../ui/Counter";
+import { Icon, type IconName } from "../ui/Icon";
 import { Reveal } from "../ui/Reveal";
 import { SplitReveal } from "../ui/SplitReveal";
 
@@ -16,10 +17,10 @@ const STATS = [
   { v: 98, s: "%", l: "clients satisfaits" },
 ];
 
-const PERKS = [
-  { icon: "◫", l: "Conception\n3D offerte" },
-  { icon: "◷", l: "Délais\nrespectés" },
-  { icon: "✳", l: "Finitions\nsoignées" },
+const PERKS: { icon: IconName; l: string }[] = [
+  { icon: "cube", l: "Conception\n3D offerte" },
+  { icon: "clock", l: "Délais\nrespectés" },
+  { icon: "sparkle", l: "Finitions\nsoignées" },
 ];
 
 /* Section « À propos » : pastille + grand titre, trio de cartes, chiffres clés */
@@ -51,11 +52,14 @@ export function Intro() {
   );
 
   return (
-    <section ref={ref} id="studio" className="mx-auto max-w-[1200px] px-5 py-24 sm:px-10 lg:py-32 ">
+    <section ref={ref} id="studio" className="container-site section-y">
       {/* En-tête : pastille à gauche, grande phrase à droite */}
       <div className="grid gap-6 lg:grid-cols-12">
         <Reveal className="lg:col-span-3">
-          <p className="text-xs tracking-[0.1em] text-muted uppercase">Le cabinet</p>
+          <p className="flex items-center gap-3 text-sm font-medium text-muted">
+            <span className="h-px w-6 bg-wood" />
+            Le cabinet
+          </p>
         </Reveal>
         <div className="lg:col-span-9">
           <SplitReveal className="text-[clamp(1.75rem,3.6vw,3.25rem)] leading-[1.1] font-medium tracking-[-0.03em]">
@@ -69,27 +73,25 @@ export function Intro() {
       <div className="mt-14 grid gap-4 md:grid-cols-3">
         <Reveal className="h-full">
           <article className="flex h-full flex-col rounded-[4px] bg-cream p-7">
-            <span className="grid size-9 place-items-center rounded-full border border-ink/80 text-sm">↗</span>
-            <p className="mt-auto pt-10 text-sm leading-relaxed">
+            <span className="grid size-10 place-items-center rounded-full border border-ink/20">
+              <Icon name="arrow-up-right" />
+            </span>
+            <p className="mt-auto pt-10 text-[15px] leading-relaxed">
               Des intérieurs haut de gamme pensés pour vous : staff, LED, menuiserie, peinture et carrelage, avec un
               seul interlocuteur du début à la fin.
             </p>
             <ul className="mt-5 flex gap-5">
               {PERKS.map((p) => (
-                <li key={p.l} className="flex items-start gap-1.5 text-xs leading-tight whitespace-pre-line text-muted">
-                  <span className="text-ink">{p.icon}</span>
+                <li key={p.l} className="flex items-start gap-2 text-[13px] leading-snug whitespace-pre-line text-muted">
+                  <Icon name={p.icon} className="mt-0.5 text-wood" />
                   {p.l}
                 </li>
               ))}
             </ul>
-            <div className="mt-6 flex items-center gap-2">
-              <a href="#contact" className="rounded-full bg-ink px-6 py-3 text-xs font-semibold text-white transition hover:bg-white hover:text-ink hover:ring-1 hover:ring-ink/15">
-                Nous contacter
-              </a>
-              <a href="#contact" aria-label="Nous contacter" className="grid size-10 place-items-center rounded-full bg-ink text-white transition hover:bg-white hover:text-ink hover:ring-1 hover:ring-ink/15">
-                ↗
-              </a>
-            </div>
+            <a href="#contact" className="btn btn-sm btn-primary mt-7 self-start">
+              Nous contacter
+              <Icon name="arrow-up-right" />
+            </a>
           </article>
         </Reveal>
 
@@ -114,7 +116,7 @@ export function Intro() {
                 </div>
               ))}
             </div>
-            <p className="mt-auto pt-8 text-sm leading-relaxed">
+            <p className="mt-auto pt-8 text-[15px] leading-relaxed">
               Des espaces et des histoires de clients qui nous ont confié leur intérieur.
             </p>
           </article>
@@ -128,7 +130,7 @@ export function Intro() {
             <p className="text-4xl font-medium tracking-[-0.04em]">
               <Counter to={k.v} suffix={k.s} />
             </p>
-            <p className="mt-2 text-xs text-muted">{k.l}</p>
+            <p className="mt-2 text-sm text-muted">{k.l}</p>
           </div>
         ))}
       </Reveal>

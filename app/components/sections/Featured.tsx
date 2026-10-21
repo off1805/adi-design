@@ -6,6 +6,7 @@ import type { ScrollTrigger as ST } from "gsap/ScrollTrigger";
 import { FEATURED } from "../../lib/data";
 import { gsap, MOTION_OK, useGSAP } from "../../lib/gsap";
 import { Magnetic } from "../ui/Magnetic";
+import { Icon } from "../ui/Icon";
 import { SectionHead } from "../ui/SectionHead";
 
 const CURVE = 1.45; // rayon du cercle = largeur d’une image × CURVE (plus petit = cercle plus serré)
@@ -119,7 +120,7 @@ export function Featured() {
   const p = FEATURED[active];
 
   return (
-    <section id="projets" >
+    <section id="projets">
       <div ref={ref} className="group/stage relative flex flex-col justify-center overflow-hidden  [--fp-w:min(48vw,780px,calc((100svh-480px)*1.6))] max-md:[--fp-w:min(84vw,calc((100svh-470px)*1.6))] [&.is-animated]:h-svh [&.is-animated]:pt-24 [&.is-animated]:pb-6">
         <div className="mx-auto mb-6 shrink-0 px-5 sm:mb-8">
           <SectionHead center label="Réalisations récentes · Yaoundé">
@@ -133,7 +134,7 @@ export function Featured() {
             {FEATURED.map((f) => (
               <figure
                 key={f.title}
-                className="fp-card relative aspect-[16/10] w-[85vw] shrink-0 rounded-md snap-center overflow-hidden rounded-[4px] bg-ink [backface-visibility:hidden] group-[.is-animated]/stage:absolute group-[.is-animated]/stage:top-0 group-[.is-animated]/stage:left-1/2 group-[.is-animated]/stage:w-[var(--fp-w)] sm:w-[60vw]">
+                className="fp-card relative aspect-[16/10] w-[85vw] shrink-0 snap-center overflow-hidden rounded-[4px] bg-ink [backface-visibility:hidden] group-[.is-animated]/stage:absolute group-[.is-animated]/stage:top-0 group-[.is-animated]/stage:left-1/2 group-[.is-animated]/stage:w-[var(--fp-w)] sm:w-[60vw]">
                 <Image src={f.src} alt={f.title} fill loading="eager" className="object-cover " sizes="(min-width:1024px) 48vw, 85vw" />
                 <div className="fp-shade absolute inset-0 bg-ink opacity-0" />
                 <figcaption className="absolute top-4 left-4 flex flex-wrap gap-1.5">
@@ -149,14 +150,14 @@ export function Featured() {
         </div>
 
         {/* Légende du projet au centre */}
-        <div className="mx-auto mt-6 grid w-full shrink-0 max-w-[1500px] items-end gap-4 px-5 sm:px-10 md:grid-cols-[1fr_auto_1fr]">
+        <div className="container-site mt-6 grid shrink-0 items-end gap-4 md:grid-cols-[1fr_auto_1fr]">
           <div className="flex items-center gap-4">
             <div className="flex gap-2">
               <button onClick={() => goTo(active - 1)} disabled={active === 0} aria-label="Projet précédent" className="grid h-11 w-11 place-items-center rounded-full border border-ink/20 transition-colors hover:border-ink hover:bg-ink hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-ink">
-                ←
+                <Icon name="arrow-left" />
               </button>
               <button onClick={() => goTo(active + 1)} disabled={active === last} aria-label="Projet suivant" className="grid h-11 w-11 place-items-center rounded-full border border-ink/20 transition-colors hover:border-ink hover:bg-ink hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-ink">
-                →
+                <Icon name="arrow-right" />
               </button>
             </div>
             <div className="flex items-center gap-1.5" role="tablist" aria-label="Choisir un projet">
@@ -169,21 +170,21 @@ export function Featured() {
                   aria-label={f.title}
                   className="grid h-11 place-items-center"
                 >
-                  <span className={`block h-1.5 rounded-full transition-all ${i === active ? "w-6 bg-red" : "w-1.5 bg-ink/25"}`} />
+                  <span className={`block h-1.5 rounded-full transition-all ${i === active ? "w-6 bg-ink" : "w-1.5 bg-ink/25"}`} />
                 </button>
               ))}
             </div>
           </div>
           <div key={p.title} className="animate-[fp-in_0.5s_ease-out] text-center">
             <h3 className="text-2xl font-medium tracking-[-0.03em] sm:text-3xl">{p.title}</h3>
-            <p className="mt-1 text-xs tracking-[0.2em] text-muted uppercase">{p.place}, Cameroun</p>
-            <p className="mx-auto mt-2 max-w-md text-sm text-muted">{p.text}</p>
+            <p className="mt-1 text-sm text-muted">{p.place}, Cameroun</p>
+            <p className="mx-auto mt-2 max-w-md text-[15px] leading-relaxed text-muted">{p.text}</p>
           </div>
           <div className="md:justify-self-end">
             <Magnetic>
-              <a href="#contact" className="inline-flex items-center gap-3 rounded-full bg-ink py-2 pr-2 pl-6 text-xs font-semibold text-white transition-colors hover:bg-white hover:text-ink hover:ring-1 hover:ring-ink/15">
+              <a href="#contact" className="btn btn-sm btn-primary">
                 Un projet similaire ?
-                <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-ink">↗</span>
+                <Icon name="arrow-up-right" />
               </a>
             </Magnetic>
           </div>

@@ -69,7 +69,7 @@ export function Preloader() {
           <Image src="/images/logo.png" alt="ADI Design" width={1076} height={820} className="h-auto w-full" priority />
         </span>
         <span className="mt-8 h-px w-48 overflow-hidden bg-white/15">
-          <span className="pl-bar block h-full w-full origin-left scale-x-0 bg-red" />
+          <span className="pl-bar block h-full w-full origin-left scale-x-0 bg-wood" />
         </span>
         <span className="pl-count mt-4 text-sm tracking-[0.3em] tabular-nums text-white/60">000</span>
       </div>

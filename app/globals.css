@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* ADI Design — palette tirée du logo (noir, rouge, crème) et des réalisations (bois, LED ambrées) */
+/* ADI Design — palette chaude : encre, crème, sable, bois (accent unique). Le rouge n'est plus utilisé. */
 :root {
   --ink: #0e0d0c;
   --ink-2: #1a1816;
@@ -37,6 +37,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Les ancres (#services, #contact…) ne passent plus sous la barre de navigation fixe */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
 body {
   background: var(--paper);
   color: var(--ink);
@@ -45,7 +50,7 @@ body {
 }
 
 ::selection {
-  background: var(--red);
+  background: var(--wood);
   color: #fff;
 }
 
@@ -88,8 +93,54 @@ body {
   }
 }
 
-/* Barre de progression des témoignages */
-@keyframes progress {
-  from { transform: scaleX(0); }
-  to { transform: scaleX(1); }
+
+/* Conteneur commun : même largeur et mêmes marges latérales pour toutes les sections */
+@utility container-site {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 1200px;
+  padding-inline: 1.25rem;
+  @media (width >= 40rem) {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* Rythme vertical commun des sections */
+@utility section-y {
+  padding-block: 5rem;
+  @media (width >= 64rem) {
+    padding-block: 7rem;
+  }
+}
+
+/* Boutons : deux tailles (btn / btn-sm), quatre variantes selon le fond */
+@layer components {
+  .btn {
+    @apply inline-flex h-12 items-center justify-center gap-2.5 rounded-full px-6 text-sm font-semibold whitespace-nowrap transition-colors duration-300;
+  }
+  .btn-sm {
+    @apply h-10 px-5 text-[13px];
+  }
+  .btn-primary {
+    @apply bg-ink text-white hover:bg-ink-3;
+  }
+  .btn-secondary {
+    @apply border border-ink/20 text-ink hover:border-ink hover:bg-ink hover:text-white;
+  }
+  .btn-light {
+    @apply bg-white text-ink hover:bg-sand;
+  }
+  .btn-outline-light {
+    @apply border border-white/40 text-white hover:border-white hover:bg-white hover:text-ink;
+  }
+}
+
+/* Barre de progression de l'étape active (section Méthode) */
+@keyframes step-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
 }

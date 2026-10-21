@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useRef } from "react";
 import { img } from "../../lib/data";
 import { gsap, MOTION_OK, onIntroDone, padMasks, SplitText, useGSAP } from "../../lib/gsap";
-import { Magnetic } from "../ui/Magnetic";
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
@@ -43,29 +42,21 @@ export function Hero() {
 
         <div className="hero-content absolute inset-0 grid place-items-center px-4 text-center text-white">
           <div>
-            <h1 className="hero-title text-[clamp(3.5rem,12vw,11rem)] leading-[0.9]  tracking-[-0.045em]">ADI Design</h1>
-            <p className="hero-fade mx-auto mt-5 max-w-xl text-base leading-relaxed text-white/85 sm:text-lg">
+            <h1 className="hero-title text-[clamp(3.5rem,12vw,11rem)] leading-[0.9] tracking-[-0.045em]">ADI Design</h1>
+            <p className="hero-fade mx-auto mt-8 max-w-xl sm:mt-10 text-base leading-relaxed text-white/85 sm:text-lg">
               Architecture d’intérieur clé en main à Yaoundé, du crépissage à la décoration finale.
             </p>
             <div className="hero-fade mt-8 flex flex-wrap items-center justify-center gap-3">
-              <a href="#contact" className="rounded-full bg-white px-7 py-3.5 text-sm font-semibold text-ink transition-colors hover:bg-white/85">
+              <a href="#contact" className="btn btn-light">
                 Demander un devis gratuit
               </a>
-              <a href="#projets" className="rounded-full border border-white/50 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-sm transition-colors hover:bg-white hover:text-ink">
+              <a href="#projets" className="btn btn-outline-light backdrop-blur-sm">
                 Voir nos projets
               </a>
             </div>
-           
           </div>
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-6 p-6 text-white sm:p-8">
-          <p className="hero-fade hidden max-w-xs text-sm leading-relaxed text-white/80 sm:block">
-            Cabinet d’architecture d’intérieur à Yaoundé. Conception 3D, staff, carrelage, mobilier sur mesure.
-          </p>
-         
-         
-        </div>
       </div>
     </section>
   );
