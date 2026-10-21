@@ -51,11 +51,11 @@ export function Intro() {
   );
 
   return (
-    <section ref={ref} id="studio" className="mx-auto max-w-[1300px] px-5 py-24 sm:px-10 lg:py-32">
+    <section ref={ref} id="studio" className="mx-auto max-w-[1200px] px-5 py-24 sm:px-10 lg:py-32 ">
       {/* En-tête : pastille à gauche, grande phrase à droite */}
       <div className="grid gap-6 lg:grid-cols-12">
         <Reveal className="lg:col-span-3">
-          <p className="text-xs tracking-[0.3em] text-muted uppercase">Le cabinet</p>
+          <p className="text-xs tracking-[0.1em] text-muted uppercase">Le cabinet</p>
         </Reveal>
         <div className="lg:col-span-9">
           <SplitReveal className="text-[clamp(1.75rem,3.6vw,3.25rem)] leading-[1.1] font-medium tracking-[-0.03em]">
@@ -83,10 +83,10 @@ export function Intro() {
               ))}
             </ul>
             <div className="mt-6 flex items-center gap-2">
-              <a href="#contact" className="rounded-full bg-ink px-6 py-3 text-xs font-semibold text-white transition hover:bg-red">
+              <a href="#contact" className="rounded-full bg-ink px-6 py-3 text-xs font-semibold text-white transition hover:bg-white hover:text-ink hover:ring-1 hover:ring-ink/15">
                 Nous contacter
               </a>
-              <a href="#contact" aria-label="Nous contacter" className="grid size-10 place-items-center rounded-full bg-ink text-white transition hover:bg-red">
+              <a href="#contact" aria-label="Nous contacter" className="grid size-10 place-items-center rounded-full bg-ink text-white transition hover:bg-white hover:text-ink hover:ring-1 hover:ring-ink/15">
                 ↗
               </a>
             </div>

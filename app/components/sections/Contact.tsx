@@ -2,6 +2,8 @@
 
 import { useState, type FormEvent } from "react";
 import { CONTACT, whatsappLink } from "../../lib/data";
+import { Reveal } from "../ui/Reveal";
+import { SplitReveal } from "../ui/SplitReveal";
 
 const PROJECT_TYPES = ["Aménagement complet", "Cuisine sur mesure", "Meuble TV / Mur décoratif", "Dressing / Placards", "Staff & plafonds", "Carrelage / Peinture", "Conception 3D"];
 
@@ -24,9 +26,9 @@ export function Contact() {
       <div className="mx-auto grid max-w-[1300px] gap-16 lg:grid-cols-2">
         <div>
           <p className="text-xs tracking-[0.3em] text-white/60 uppercase">Consultation gratuite</p>
-          <h2 className="mt-3 text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] font-medium tracking-[-0.045em]">
-            Parlons de votre projet<span className="text-red">.</span>
-          </h2>
+          <SplitReveal className="mt-3 text-[clamp(2.5rem,6vw,5rem)] leading-[0.95] font-medium tracking-[-0.045em]">
+            Parlons de votre projet<span className="text-wood">.</span>
+          </SplitReveal>
           <dl className="mt-12 grid gap-8 border-t border-white/10 pt-8 sm:grid-cols-2">
             <div>
               <dt className="text-xs tracking-[0.2em] text-white/60 uppercase">Téléphone & WhatsApp</dt>
@@ -47,6 +49,7 @@ export function Contact() {
           </dl>
         </div>
 
+        <Reveal delay={150} className="w-full max-w-lg lg:justify-self-end">
         <form onSubmit={onSubmit} className="grid content-start gap-2 lg:pt-8">
           <div className="grid gap-x-8 sm:grid-cols-2">
             <input name="name" required placeholder="Votre nom" className={field} />
@@ -60,9 +63,9 @@ export function Contact() {
             ))}
           </select>
           <textarea name="message" rows={4} placeholder="Parlez-nous de votre espace…" className={field} />
-          <button className="mt-8 flex items-center justify-between rounded-full bg-red py-2 pr-2 pl-7 text-sm font-semibold text-white transition-colors hover:bg-red-deep">
+          <button className="mt-8 flex items-center justify-between rounded-full bg-white py-2 pr-2 pl-7 text-sm font-semibold text-ink transition-colors hover:bg-white/85">
             Envoyer ma demande sur WhatsApp
-            <span className="grid h-11 w-11 place-items-center rounded-full bg-white text-red">↗</span>
+            <span className="grid h-11 w-11 place-items-center rounded-full bg-ink text-white">↗</span>
           </button>
           <a
             href={`tel:+${CONTACT.phoneIntl}`}
@@ -80,6 +83,7 @@ export function Contact() {
             <p className="mt-3 text-xs text-white/60">Réponse rapide, du lundi au samedi. Consultation gratuite et sans engagement.</p>
           )}
         </form>
+        </Reveal>
       </div>
     </section>
   );

@@ -8,7 +8,6 @@ import { Preloader } from "./components/sections/Preloader";
 import { Intro } from "./components/sections/Intro";
 import { Process } from "./components/sections/Process";
 import { Services } from "./components/sections/Services";
-import { Testimonials } from "./components/sections/Testimonials";
 import { Transformation } from "./components/sections/Transformation";
 
 export default function Home() {
@@ -22,7 +21,6 @@ export default function Home() {
       <Services />
       <Transformation />
       <Process />
-      <Testimonials />
       <Faq />
       <Contact />
       <Footer />

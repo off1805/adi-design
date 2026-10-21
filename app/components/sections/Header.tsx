@@ -75,7 +75,7 @@ export function Header() {
           <a
             href="#contact"
             className={`rounded-full px-4 py-2.5 text-xs font-semibold whitespace-nowrap transition sm:px-5 ${
-              light ? "bg-white text-ink hover:bg-red hover:text-white" : "bg-red text-white hover:bg-red-deep"
+              light ? "bg-white text-ink hover:bg-white/85" : "border border-ink/15 bg-white text-ink hover:bg-ink hover:text-white"
             }`}
           >
             Devis gratuit

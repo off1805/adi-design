@@ -119,8 +119,8 @@ export function Featured() {
   const p = FEATURED[active];
 
   return (
-    <section id="projets">
-      <div ref={ref} className="group/stage relative flex flex-col justify-center overflow-hidden py-10 [--fp-w:min(48vw,780px,calc((100svh-480px)*1.6))] max-md:[--fp-w:min(84vw,calc((100svh-470px)*1.6))] [&.is-animated]:h-svh [&.is-animated]:pt-24 [&.is-animated]:pb-6">
+    <section id="projets" >
+      <div ref={ref} className="group/stage relative flex flex-col justify-center overflow-hidden  [--fp-w:min(48vw,780px,calc((100svh-480px)*1.6))] max-md:[--fp-w:min(84vw,calc((100svh-470px)*1.6))] [&.is-animated]:h-svh [&.is-animated]:pt-24 [&.is-animated]:pb-6">
         <div className="mx-auto mb-6 shrink-0 px-5 sm:mb-8">
           <SectionHead center label="Réalisations récentes · Yaoundé">
             Nos projets
@@ -133,8 +133,8 @@ export function Featured() {
             {FEATURED.map((f) => (
               <figure
                 key={f.title}
-                className="fp-card relative aspect-[16/10] w-[85vw] shrink-0 snap-center overflow-hidden rounded-[4px] bg-ink [backface-visibility:hidden] group-[.is-animated]/stage:absolute group-[.is-animated]/stage:top-0 group-[.is-animated]/stage:left-1/2 group-[.is-animated]/stage:w-[var(--fp-w)] sm:w-[60vw]">
-                <Image src={f.src} alt={f.title} fill loading="eager" className="object-cover" sizes="(min-width:1024px) 48vw, 85vw" />
+                className="fp-card relative aspect-[16/10] w-[85vw] shrink-0 rounded-md snap-center overflow-hidden rounded-[4px] bg-ink [backface-visibility:hidden] group-[.is-animated]/stage:absolute group-[.is-animated]/stage:top-0 group-[.is-animated]/stage:left-1/2 group-[.is-animated]/stage:w-[var(--fp-w)] sm:w-[60vw]">
+                <Image src={f.src} alt={f.title} fill loading="eager" className="object-cover " sizes="(min-width:1024px) 48vw, 85vw" />
                 <div className="fp-shade absolute inset-0 bg-ink opacity-0" />
                 <figcaption className="absolute top-4 left-4 flex flex-wrap gap-1.5">
                   {f.tags.slice(0, 2).map((t) => (
@@ -181,7 +181,7 @@ export function Featured() {
           </div>
           <div className="md:justify-self-end">
             <Magnetic>
-              <a href="#contact" className="inline-flex items-center gap-3 rounded-full bg-ink py-2 pr-2 pl-6 text-xs font-semibold text-white transition-colors hover:bg-red">
+              <a href="#contact" className="inline-flex items-center gap-3 rounded-full bg-ink py-2 pr-2 pl-6 text-xs font-semibold text-white transition-colors hover:bg-white hover:text-ink hover:ring-1 hover:ring-ink/15">
                 Un projet similaire ?
                 <span className="grid h-9 w-9 place-items-center rounded-full bg-white text-ink">↗</span>
               </a>

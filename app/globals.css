@@ -87,3 +87,9 @@ body {
     transform: translateY(12px);
   }
 }
+
+/* Barre de progression des témoignages */
+@keyframes progress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}

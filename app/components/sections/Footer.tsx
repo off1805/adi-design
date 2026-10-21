@@ -2,33 +2,103 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { CONTACT, NAV, whatsappLink } from "../../lib/data";
+import { CONTACT, NAV, SERVICES, SOCIALS, whatsappLink } from "../../lib/data";
 
+const ICONS: Record<(typeof SOCIALS)[number]["label"], string> = {
+  Facebook: "M14 8.5V6.8c0-.8.2-1.3 1.4-1.3H17V2.6c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.4-4 4.1v1.9H8v3.2h2.6V22H14v-10.3h2.7l.4-3.2H14z",
+  Instagram:
+    "M12 2.2c3.2 0 3.6 0 4.8.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.8.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8C2.4 3.9 3.9 2.4 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zm0 4.8a5 5 0 100 10 5 5 0 000-10zm0 8.2a3.2 3.2 0 110-6.4 3.2 3.2 0 010 6.4zm5.2-9.6a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4z",
+  TikTok: "M19.6 6.7a4.8 4.8 0 01-3.8-4.2V2h-3.4v13.4a2.9 2.9 0 11-2-2.7V9.2a6.3 6.3 0 105.4 6.2V8.6a8.2 8.2 0 004.8 1.5V6.7h-1z",
+};
+
+const linkCls = "text-white/65 transition-colors hover:text-white";
+
+/** Pied de page : marque + réseaux, navigation, services, coordonnées, puis barre légale. */
 export function Footer() {
   return (
-    <footer className="bg-ink px-5 pb-10 text-white sm:px-10">
-      <div className="mx-auto max-w-[1300px]">
-        <div className="flex flex-col justify-between gap-8 border-t border-white/10 pt-10 md:flex-row md:items-center">
-          <span className="grid h-12 w-16 place-items-center rounded-lg bg-white p-1.5">
-            <Image src="/images/logo.png" alt="ADI Design — Le luxe chez vous à petit prix" width={1076} height={820} className="h-auto w-full" />
-          </span>
-          <nav className="flex flex-wrap gap-6 text-sm text-white/60">
-            {NAV.map(({ label, href }) => (
-              <a key={href} href={href} className="transition-colors hover:text-white">
-                {label}
-              </a>
-            ))}
+    <footer className="bg-ink px-5 pt-20 pb-8 text-white sm:px-10">
+      <div className="mx-auto max-w-[1300px] border-t border-white/10 pt-14">
+        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-12">
+          <div className="lg:col-span-4">
+            <span className="inline-grid h-14 w-20 place-items-center rounded-[4px] bg-white p-2">
+              <Image src="/images/logo.png" alt="ADI Design — Le luxe chez vous à petit prix" width={1076} height={820} className="h-auto w-full" />
+            </span>
+            <p className="mt-6 max-w-xs text-sm leading-relaxed text-white/65">
+              Cabinet d’architecture d’intérieur à {CONTACT.city}. Conception 3D, staff, carrelage, mobilier sur mesure : le luxe chez vous à petit prix.
+            </p>
+            <ul className="mt-6 flex gap-2">
+              {SOCIALS.map(({ label, href }) => (
+                <li key={label}>
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener"
+                    aria-label={`ADI Design sur ${label}`}
+                    className="grid h-10 w-10 place-items-center rounded-full border border-white/15 text-white/80 transition hover:border-white hover:bg-white hover:text-ink"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+                      <path d={ICONS[label]} />
+                    </svg>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <nav className="lg:col-span-2" aria-label="Pied de page">
+            <p className="text-xs tracking-[0.25em] text-white/45 uppercase">Navigation</p>
+            <ul className="mt-5 space-y-3 text-sm">
+              {NAV.map(({ label, href }) => (
+                <li key={href}>
+                  <a href={href} className={linkCls}>
+                    {label}
+                  </a>
+                </li>
+              ))}
+            </ul>
           </nav>
-          <a href={`tel:+${CONTACT.phoneIntl}`} className="text-sm text-white/80 transition-colors hover:text-glow">
-            {CONTACT.phoneDisplay}
-          </a>
+
+          <div className="lg:col-span-3">
+            <p className="text-xs tracking-[0.25em] text-white/45 uppercase">Services</p>
+            <ul className="mt-5 space-y-3 text-sm">
+              {SERVICES.map((s) => (
+                <li key={s.title}>
+                  <a href="#services" className={linkCls}>
+                    {s.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="lg:col-span-3">
+            <p className="text-xs tracking-[0.25em] text-white/45 uppercase">Contact</p>
+            <ul className="mt-5 space-y-3 text-sm">
+              <li>
+                <a href={`tel:+${CONTACT.phoneIntl}`} className="text-lg tracking-[-0.01em] text-white transition-colors hover:text-white/70">
+                  {CONTACT.phoneDisplay}
+                </a>
+              </li>
+              <li>
+                <a href={whatsappLink()} target="_blank" rel="noopener" className={linkCls}>
+                  Écrire sur WhatsApp ↗
+                </a>
+              </li>
+              <li className="leading-relaxed text-white/65">
+                {CONTACT.address}
+                <br />
+                {CONTACT.city}, Cameroun
+              </li>
+              <li className="text-white/65">Du lundi au samedi</li>
+            </ul>
+          </div>
         </div>
-        <p className="mt-12 text-center text-[clamp(3rem,13vw,13rem)] leading-[0.8] font-medium tracking-[-0.05em] whitespace-nowrap">
-          ADI Design<span className="text-red">.</span>
-        </p>
-        <div className="mt-10 flex flex-col justify-between gap-3 text-xs text-white/60 sm:flex-row">
-          <p>© 2026 ADI Design — L’apôtre du design intérieur</p>
-          <p className="tracking-[0.25em] uppercase">Des idées · Des plans · Des espaces · Votre confort</p>
+
+        <div className="mt-16 flex flex-col gap-4 border-t border-white/10 pt-6 text-xs text-white/45 sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} ADI Design — L’apôtre du design intérieur</p>
+          <a href="#top" className="transition-colors hover:text-white">
+            Retour en haut ↑
+          </a>
         </div>
       </div>
     </footer>
