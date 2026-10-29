@@ -15,7 +15,7 @@ export function Contact() {
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const d = new FormData(e.currentTarget);
-    const msg = `Bonjour ADI Design Cameroun 👋\n\nNom : ${d.get("name")}\nTéléphone : ${d.get("phone")}\nProjet : ${d.get("type")}\n\n${d.get("message")}`;
+    const msg = `Bonjour ADI Design 👋\n\nNom : ${d.get("name")}\nTéléphone : ${d.get("phone")}\nProjet : ${d.get("type")}\n\n${d.get("message")}`;
     window.open(whatsappLink(msg), "_blank");
     setSent(true);
   }

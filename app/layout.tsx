@@ -14,7 +14,7 @@ const kaushan = Kaushan_Script({
 });
 
 export const metadata: Metadata = {
-  title: "ADI Design Cameroun — L'apôtre du design intérieur | Yaoundé",
+  title: "ADI Design — L'apôtre du design intérieur | Yaoundé",
   description:
     "Cabinet d'architecture d'intérieur à Yaoundé : conception 3D, staff, carrelage, peinture, mobilier sur mesure et aménagement complet. Le luxe chez vous à petit prix.",
 };

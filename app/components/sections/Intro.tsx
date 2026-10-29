@@ -97,7 +97,7 @@ export function Intro() {
 
         <Reveal delay={100} className="h-full">
           <article className="intro-photo relative h-full min-h-[340px] overflow-hidden rounded-[4px]">
-            <Image src={img("salon-tv-marbre")} alt="Salon réalisé par ADI Design Cameroun" fill className="object-cover" sizes="(min-width:768px) 33vw, 100vw" />
+            <Image src={img("salon-tv-marbre")} alt="Salon réalisé par ADI Design" fill className="object-cover" sizes="(min-width:768px) 33vw, 100vw" />
             <div className="absolute inset-0 bg-gradient-to-b from-ink/40 to-transparent to-40%" />
             <h3 className="absolute top-6 left-7 text-2xl font-medium tracking-[-0.02em] text-white">Le luxe chez vous</h3>
           </article>
@@ -112,7 +112,7 @@ export function Intro() {
                 { n: "cuisine-ilot", c: "left-[56%] top-0 rotate-12 z-20" },
               ].map((p) => (
                 <div key={p.n} className={`absolute h-32 w-24 overflow-hidden rounded-[4px] border-4 border-white shadow-lg ${p.c}`}>
-                  <Image src={img(p.n)} alt="Réalisation ADI Design Cameroun" fill className="object-cover" sizes="120px" />
+                  <Image src={img(p.n)} alt="Réalisation ADI Design" fill className="object-cover" sizes="120px" />
                 </div>
               ))}
             </div>

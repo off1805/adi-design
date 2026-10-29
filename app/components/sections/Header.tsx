@@ -44,10 +44,10 @@ export function Header() {
           scrolled ? "bg-paper/85 shadow-[0_10px_30px_-15px_rgba(0,0,0,.2)] backdrop-blur-xl" : "py-5"
         }`}
       >
-        <a href="#top" aria-label="ADI Design Cameroun — accueil" className={`flex items-center gap-3 text-sm font-semibold tracking-[0.2em] uppercase ${light ? "text-white" : "text-ink"}`}>
+        <a href="#top" aria-label="ADI Design — accueil" className={`flex items-center gap-3 text-sm font-semibold tracking-[0.2em] uppercase ${light ? "text-white" : "text-ink"}`}>
           {/* Logo monochrome : blanc sur le hero, encre une fois la barre sur fond clair */}
           <Image src="/images/logo.png" alt="" width={1076} height={820} priority className={`h-auto w-11 brightness-0 transition ${light ? "invert" : ""}`} />
-          <span className="hidden whitespace-nowrap sm:inline">ADI Design Cameroun</span>
+          <span className="hidden whitespace-nowrap sm:inline">ADI Design</span>
         </a>
 
         <nav className="hidden items-center gap-1 rounded-full p-1 lg:flex">
