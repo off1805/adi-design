@@ -32,7 +32,7 @@ export function Contact() {
             Consultation gratuite
           </p>
           <SplitReveal className="mt-4 text-[clamp(2.5rem,5.5vw,4.5rem)] leading-[0.98] font-medium tracking-[-0.045em]">
-            Parlons de votre projet<span className="text-wood">.</span>
+            Parlons de votre projet
           </SplitReveal>
           <p className="mt-6 max-w-md text-[15px] leading-relaxed text-white/70">
             Décrivez votre espace en quelques mots : nous revenons vers vous pour fixer une visite, sans engagement.
@@ -95,7 +95,7 @@ export function Contact() {
                 rien ne s’est ouvert, appelez-nous directement.
               </p>
             ) : (
-              <p className="mt-2 text-center text-[13px] text-white/60">Réponse rapide · Consultation gratuite et sans engagement</p>
+              <p className="mt-2 text-center text-[13px] text-white/60">Réponse rapide. Consultation gratuite et sans engagement</p>
             )}
           </form>
         </Reveal>

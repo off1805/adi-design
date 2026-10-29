@@ -77,15 +77,15 @@ export const SERVICES = [
 export const STEPS = [
   { t: "Écoute", d: "Visite et consultation gratuites : votre espace, vos goûts, votre budget.", src: img("chantier-laser") },
   { t: "Conception 3D", d: "Vous voyez le résultat final avant le début des travaux.", src: img("rendu-3d-salon") },
-  { t: "Réalisation", d: "Staff, carrelage, menuiserie, LED — avec suivi de chantier.", src: img("equipe-pose") },
+  { t: "Réalisation", d: "Staff, carrelage, menuiserie, LED, avec suivi de chantier.", src: img("equipe-pose") },
   { t: "Livraison", d: "Finitions contrôlées, délais respectés.", src: img("salon-tv-livraison") },
 ];
 
 // ⚠️ Témoignages d'exemple — à remplacer par de vrais avis clients avant la mise en ligne.
 export const TESTIMONIALS = [
-  { q: "Le rendu 3D était fidèle au résultat final. Notre salon est devenu un vrai lieu de réception.", a: "Client — Salon" },
-  { q: "Équipe ponctuelle et soigneuse. La cuisine est exactement ce qu’on voulait, budget tenu.", a: "Cliente — Cuisine" },
-  { q: "Le plafond LED et le dressing ont transformé notre chambre. Du savoir-faire dans le détail.", a: "Client — Chambre" },
+  { q: "Le rendu 3D était fidèle au résultat final. Notre salon est devenu un vrai lieu de réception.", a: "Client, Salon" },
+  { q: "Équipe ponctuelle et soigneuse. La cuisine est exactement ce qu’on voulait, budget tenu.", a: "Cliente, Cuisine" },
+  { q: "Le plafond LED et le dressing ont transformé notre chambre. Du savoir-faire dans le détail.", a: "Client, Chambre" },
 ];
 
 export const FAQS = [

@@ -22,7 +22,7 @@ export function Footer() {
         <div className="border-t border-white/10 pt-14">
         <div className="grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-12">
           <div className="col-span-2 lg:col-span-4">
-            <Image src="/images/logo.png" alt="ADI Design — Le luxe chez vous à petit prix" width={1076} height={820} className="h-auto w-20 brightness-0 invert" />
+            <Image src="/images/logo.png" alt="ADI Design, le luxe chez vous à petit prix" width={1076} height={820} className="h-auto w-20 brightness-0 invert" />
             <p className="mt-6 max-w-xs text-[15px] leading-relaxed text-white/70">
               Cabinet d’architecture d’intérieur à {CONTACT.city}. Conception 3D, staff, carrelage, mobilier sur mesure : le luxe chez vous à petit prix.
             </p>
@@ -95,7 +95,7 @@ export function Footer() {
         </div>
 
         <div className="mt-16 flex flex-col gap-4 border-t border-white/10 pt-6 text-[13px] text-white/60 sm:flex-row sm:items-center sm:justify-between">
-          <p>© 2026 ADI Design — L’apôtre du design intérieur</p>
+          <p>© 2026 ADI Design, l’apôtre du design intérieur</p>
           <a href="#top" className="inline-flex items-center gap-1.5 transition-colors hover:text-white">
             Retour en haut
             <Icon name="arrow-up" size={14} />

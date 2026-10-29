@@ -44,7 +44,7 @@ export function Header() {
           scrolled ? "bg-paper/85 shadow-[0_10px_30px_-15px_rgba(0,0,0,.2)] backdrop-blur-xl" : "py-5"
         }`}
       >
-        <a href="#top" aria-label="ADI Design — accueil" className={`flex items-center gap-3 text-sm font-semibold tracking-[0.2em] uppercase ${light ? "text-white" : "text-ink"}`}>
+        <a href="#top" aria-label="ADI Design, accueil" className={`flex items-center gap-3 text-sm font-semibold tracking-[0.2em] uppercase ${light ? "text-white" : "text-ink"}`}>
           {/* Logo monochrome : blanc sur le hero, encre une fois la barre sur fond clair */}
           <Image src="/images/logo.png" alt="" width={1076} height={820} priority className={`h-auto w-11 brightness-0 transition ${light ? "invert" : ""}`} />
           <span className="hidden whitespace-nowrap sm:inline">ADI Design</span>
@@ -92,7 +92,7 @@ export function Header() {
       </div>
 
       <div className={`mx-auto mt-2 max-w-[1300px] overflow-hidden rounded-2xl bg-paper transition-all duration-500 lg:hidden ${open ? "max-h-96" : "max-h-0"}`}>
-        <ul className="p-6 text-3xl font-medium tracking-[-0.04em]">
+        <ul className="p-5 text-lg font-medium tracking-[-0.02em]">
           {NAV.map(({ label, href }) => (
             <li key={href}>
               <a href={href} onClick={() => setOpen(false)} className="block py-2">

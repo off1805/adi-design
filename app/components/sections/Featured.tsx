@@ -14,7 +14,7 @@ const GAP = 6; // espace entre deux images (px) : la bande reste quasi continue
 
 /**
  * Galerie de projets.
- * Desktop : arc de cercle 3D épinglé, le scroll fait tourner le cercle (+ flèches et points).
+ * Desktop : arc de cercle 3D épinglé, le scroll fait tourner le cercle (+ flèches).
  * Mobile / mouvement réduit : simple défilement horizontal au doigt.
  */
 export function Featured() {
@@ -120,10 +120,10 @@ export function Featured() {
   const p = FEATURED[active];
 
   return (
-    <section id="projets">
+    <section id="projets" className="max-md:section-y">
       <div ref={ref} className="group/stage relative flex flex-col justify-center overflow-hidden  [--fp-w:min(48vw,780px,calc((100svh-480px)*1.6))] max-md:[--fp-w:min(84vw,calc((100svh-470px)*1.6))] [&.is-animated]:h-svh [&.is-animated]:pt-24 [&.is-animated]:pb-6">
         <div className="mx-auto mb-6 shrink-0 px-5 sm:mb-8">
-          <SectionHead center label="Réalisations récentes · Yaoundé">
+          <SectionHead center label="Réalisations récentes à Yaoundé">
             Nos projets
           </SectionHead>
         </div>
@@ -151,7 +151,7 @@ export function Featured() {
 
         {/* Légende du projet au centre */}
         <div className="container-site mt-6 grid shrink-0 items-end gap-4 md:grid-cols-[1fr_auto_1fr]">
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 max-md:hidden">
             <div className="flex gap-2">
               <button onClick={() => goTo(active - 1)} disabled={active === 0} aria-label="Projet précédent" className="grid h-11 w-11 place-items-center rounded-full border border-ink/20 transition-colors hover:border-ink hover:bg-ink hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-ink">
                 <Icon name="arrow-left" />
@@ -159,20 +159,6 @@ export function Featured() {
               <button onClick={() => goTo(active + 1)} disabled={active === last} aria-label="Projet suivant" className="grid h-11 w-11 place-items-center rounded-full border border-ink/20 transition-colors hover:border-ink hover:bg-ink hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-ink">
                 <Icon name="arrow-right" />
               </button>
-            </div>
-            <div className="flex items-center gap-1.5" role="tablist" aria-label="Choisir un projet">
-              {FEATURED.map((f, i) => (
-                <button
-                  key={f.title}
-                  onClick={() => goTo(i)}
-                  role="tab"
-                  aria-selected={i === active}
-                  aria-label={f.title}
-                  className="grid h-11 place-items-center"
-                >
-                  <span className={`block h-1.5 rounded-full transition-all ${i === active ? "w-6 bg-ink" : "w-1.5 bg-ink/25"}`} />
-                </button>
-              ))}
             </div>
           </div>
           <div key={p.title} className="animate-[fp-in_0.5s_ease-out] text-center">

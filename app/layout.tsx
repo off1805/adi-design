@@ -14,7 +14,7 @@ const kaushan = Kaushan_Script({
   weight: "400",
 });
 
-const title = "ADI Design — Architecture & décoration intérieure à Yaoundé";
+const title = "ADI Design | Architecture & décoration intérieure à Yaoundé";
 const description =
   "Architecture et décoration d'intérieur à Yaoundé (Mvog Bi) : conception 3D, faux plafond staff, carrelage, peinture, cuisines, dressings et meubles TV sur mesure. Le luxe chez vous à petit prix.";
 
