@@ -10,11 +10,10 @@ export const CONTACT = {
 export const whatsappLink = (text?: string) =>
   `https://wa.me/${CONTACT.phoneIntl}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
 
-// ⚠️ Liens d'exemple — remplacer « # » par les vraies pages d'ADI Design avant la mise en ligne.
 export const SOCIALS = [
-  { label: "Facebook", href: "#" },
-  { label: "Instagram", href: "#" },
-  { label: "TikTok", href: "#" },
+  { label: "Facebook", href: "https://www.facebook.com/share/19zHQNsDmQ/" },
+  { label: "Instagram", href: "https://www.instagram.com/adidesigncameroun" },
+  { label: "TikTok", href: "https://www.tiktok.com/@adi.design.camero" },
 ] as const;
 
 export const NAV = [
