@@ -21,7 +21,7 @@ export function Testimonials() {
   }, [i, paused]);
 
   return (
-    <section className="bg-cream px-5 py-24 sm:px-10 lg:py-32" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
+    <section className="bg-white px-5 py-24 sm:px-10 lg:py-32" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
       <div className="mx-auto max-w-[1300px]">
         <SectionHead label="Témoignages">Ils nous ont confié leur intérieur</SectionHead>
 

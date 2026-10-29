@@ -121,7 +121,7 @@ export function Featured() {
 
   return (
     <section id="projets" className="max-md:section-y">
-      <div ref={ref} className="group/stage relative flex flex-col justify-center overflow-hidden  [--fp-w:min(48vw,780px,calc((100svh-480px)*1.6))] max-md:[--fp-w:min(84vw,calc((100svh-470px)*1.6))] [&.is-animated]:h-svh [&.is-animated]:pt-24 [&.is-animated]:pb-6">
+      <div ref={ref} className="group/stage relative flex flex-col justify-center overflow-hidden [&.is-animated]:justify-start  [--fp-w:min(48vw,780px,calc((100svh-480px)*1.6))] max-md:[--fp-w:min(84vw,calc((100svh-470px)*1.6))] [&.is-animated]:h-svh [&.is-animated]:pt-20 [&.is-animated]:pb-6">
         <div className="mx-auto mb-6 shrink-0 px-5 sm:mb-8">
           <SectionHead center label="Réalisations récentes à Yaoundé">
             Nos projets

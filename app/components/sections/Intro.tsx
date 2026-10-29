@@ -52,7 +52,7 @@ export function Intro() {
   );
 
   return (
-    <section ref={ref} id="studio" className="container-site section-y">
+    <section ref={ref} id="studio" className="container-site section-y pb-12! lg:pb-14!">
       {/* En-tête : pastille à gauche, grande phrase à droite */}
       <div className="grid gap-6 lg:grid-cols-12">
         <Reveal className="lg:col-span-3">

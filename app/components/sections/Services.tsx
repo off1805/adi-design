@@ -60,7 +60,7 @@ export function Services() {
   };
 
   return (
-    <section id="services" className="section-y bg-sand">
+    <section id="services" className="section-y bg-beige">
       <div className="container-site">
         {/* Mobile : titre seul ; grand écran : le titre passe en tête de la colonne de gauche */}
         <div className="lg:hidden">
@@ -87,11 +87,11 @@ export function Services() {
                     tabIndex={on ? 0 : -1}
                     onMouseEnter={() => hover(i)}
                     onClick={() => pick(i)}
-                    className="group relative flex w-full items-center gap-5 border-b border-ink/10 py-5 text-left outline-none focus-visible:bg-paper/60"
+                    className="group relative flex w-full items-center gap-5 border-b border-ink/10 py-5 pl-5 text-left outline-none focus-visible:bg-paper/60"
                   >
-                    {/* Filet bois qui souligne le service actif */}
-                    <span className={`absolute -bottom-px left-0 h-px bg-wood transition-all duration-500 ${on ? "w-full" : "w-0"}`} />
-                    <span className={`w-8 shrink-0 text-lg font-light tabular-nums transition-colors ${on ? "text-wood" : "text-ink/45"}`}>{pad(i)}</span>
+                    {/* Barre verticale qui marque le service actif */}
+                    <span className={`absolute top-1/2 left-0 w-[3px] -translate-y-1/2 rounded-full bg-ink transition-all duration-500 ${on ? "h-8 opacity-100" : "h-0 opacity-0"}`} />
+                    <span className={`w-8 shrink-0 text-lg tabular-nums transition-colors ${on ? "font-medium text-ink" : "font-light text-ink/45"}`}>{pad(i)}</span>
                     <span
                       className={`flex-1 text-[clamp(1.5rem,2.3vw,2rem)] leading-tight tracking-[-0.03em] transition duration-300 ${
                         on ? "translate-x-1.5 text-ink" : "text-ink/55 group-hover:text-ink/80"

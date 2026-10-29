@@ -7,13 +7,14 @@
   --ink-3: #2a2622;
   --red: #c8102e;
   --red-deep: #9e0b22;
-  --paper: #faf8f5;
+  --paper: #ffffff;
   --cream: #f6f1ea;
   --sand: #ebe1d3;
   --stone: #d8cab6;
   --wood: #a86b3c;
   --glow: #e3b26b;
   --muted: #6e655c;
+  --beige: #faf9f2; /* fond de la section Services */
 }
 
 @theme inline {
@@ -29,6 +30,7 @@
   --color-wood: var(--wood);
   --color-glow: var(--glow);
   --color-muted: var(--muted);
+  --color-beige: var(--beige);
   --font-sans: var(--font-manrope);
   --font-script: var(--font-kaushan);
 }
