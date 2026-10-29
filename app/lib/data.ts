@@ -1,5 +1,7 @@
 export const img = (name: string) => `/images/${name}.jpg`;
 
+export const SITE_URL = "https://adi-design.site";
+
 export const CONTACT = {
   phoneDisplay: "6 93 89 42 22",
   phoneIntl: "237693894222",
