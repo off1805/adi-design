@@ -59,7 +59,7 @@ export function Transformation() {
   return (
     <section ref={ref} className="section-y">
       <div className="container-site">
-        <SectionHead label="Avant / Après" aside="Survolez ou faites glisser : même mur, même angle. Un exemple réel d’intervention ADI Design.">
+        <SectionHead label="Avant / Après" aside="Survolez ou faites glisser : même mur, même angle. Un exemple réel d’intervention ADI Design Cameroun.">
           Du mur brut à la pièce signature
         </SectionHead>
 
@@ -68,7 +68,7 @@ export function Transformation() {
           onPointerDown={follow}
           className="tr-frame relative mt-12 aspect-square max-h-[62vh] w-full cursor-ew-resize touch-pan-y select-none overflow-hidden rounded-[4px] bg-ink sm:aspect-[2/1]"
         >
-          <Image src={img("mur-apres")} alt="Après intervention ADI Design" fill className="object-cover" sizes="(min-width:1200px) 1200px, 100vw" />
+          <Image src={img("mur-apres")} alt="Après intervention ADI Design Cameroun" fill className="object-cover" sizes="(min-width:1200px) 1200px, 100vw" />
           <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
             <Image src={img("mur-avant")} alt="Avant intervention" fill className="object-cover grayscale-[35%]" sizes="(min-width:1200px) 1200px, 100vw" />
           </div>

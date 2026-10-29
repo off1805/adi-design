@@ -122,7 +122,7 @@ export function Services() {
                   <Image
                     key={src}
                     src={src}
-                    alt={`${s.title} — réalisation ADI Design ${k + 1}`}
+                    alt={`${s.title} — réalisation ADI Design Cameroun ${k + 1}`}
                     fill
                     className={`object-cover transition duration-700 ease-out ${k === shot ? "scale-100 opacity-100" : "scale-[1.04] opacity-0"}`}
                     sizes="(min-width:1200px) 680px, 58vw"
@@ -183,7 +183,7 @@ export function Services() {
           {SERVICES.map((x, i) => (
             <li key={x.title} className="flex w-[82vw] max-w-sm shrink-0 snap-start flex-col rounded-[4px] bg-paper p-3">
               <div className="relative aspect-[16/10] overflow-hidden rounded-[4px] bg-stone">
-                <Image src={x.images[0]} alt={`${x.title} — réalisation ADI Design`} fill className="object-cover" sizes="(min-width:640px) 384px, 82vw" />
+                <Image src={x.images[0]} alt={`${x.title} — réalisation ADI Design Cameroun`} fill className="object-cover" sizes="(min-width:640px) 384px, 82vw" />
               </div>
               <div className="flex flex-1 flex-col p-3 pt-5">
                 <span className="text-sm font-light text-wood tabular-nums">{pad(i)}</span>
