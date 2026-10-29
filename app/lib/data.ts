@@ -4,7 +4,7 @@ export const CONTACT = {
   phoneDisplay: "6 93 89 42 22",
   phoneIntl: "237693894222",
   city: "Yaoundé",
-  address: "Carrefour Jouvence, descente Mario",
+  address: "Mvog Bi",
 };
 
 export const whatsappLink = (text?: string) =>
