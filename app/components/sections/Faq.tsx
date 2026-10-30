@@ -12,7 +12,7 @@ export function Faq() {
   const [open, setOpen] = useState(0);
 
   return (
-    <section className="section-y border-t border-ink/10">
+    <section className="section-y">
       <div className="container-site grid gap-12 lg:grid-cols-12">
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-28">

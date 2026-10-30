@@ -1,17 +1,31 @@
 {
   "visible": true,
+  "title": "Ils nous ont confié leur intérieur",
+  "subtitle": "Des avis de clients à Yaoundé qui ont transformé leur maison avec nous.",
   "items": [
     {
-      "quote": "Le rendu 3D était fidèle au résultat final. Notre salon est devenu un vrai lieu de réception.",
-      "author": "Client, Salon"
+      "name": "Client",
+      "role": "Aménagement salon",
+      "photo": null,
+      "rating": 5,
+      "date": "",
+      "quote": "Le rendu 3D était fidèle au résultat final. Notre salon est devenu un vrai lieu de réception."
     },
     {
-      "quote": "Équipe ponctuelle et soigneuse. La cuisine est exactement ce qu’on voulait, budget tenu.",
-      "author": "Cliente, Cuisine"
+      "name": "Cliente",
+      "role": "Cuisine sur mesure",
+      "photo": null,
+      "rating": 5,
+      "date": "",
+      "quote": "Équipe ponctuelle et soigneuse. La cuisine est exactement ce qu’on voulait, budget tenu."
     },
     {
-      "quote": "Le plafond LED et le dressing ont transformé notre chambre. Du savoir-faire dans le détail.",
-      "author": "Client, Chambre"
+      "name": "Client",
+      "role": "Chambre & dressing",
+      "photo": null,
+      "rating": 5,
+      "date": "",
+      "quote": "Le plafond LED et le dressing ont transformé notre chambre. Du savoir-faire dans le détail."
     }
   ]
 }

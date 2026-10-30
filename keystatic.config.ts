@@ -177,9 +177,18 @@ export default config({
       format: json,
       schema: {
         visible: fields.checkbox({ label: "Afficher la section", defaultValue: true }),
+        title: text("Titre"),
+        subtitle: text("Sous-titre", true),
         items: fields.array(
-          fields.object({ quote: text("Citation", true), author: text("Auteur (ex. : Cliente, Cuisine)") }),
-          { label: "Témoignages", itemLabel: (p) => p.fields.author.value },
+          fields.object({
+            name: text("Nom du client"),
+            role: fields.text({ label: "Projet / fonction (ex. : Rénovation salon, Bastos)" }),
+            photo: fields.image({ label: "Photo (optionnelle, sinon initiales)", directory: "public/images", publicPath: "/images/" }),
+            rating: fields.integer({ label: "Note (1 à 5)", defaultValue: 5, validation: { isRequired: true, min: 1, max: 5 } }),
+            date: fields.text({ label: "Date (ex. : Mars 2026)" }),
+            quote: text("Avis", true),
+          }),
+          { label: "Témoignages", itemLabel: (p) => p.fields.name.value },
         ),
       },
     }),
