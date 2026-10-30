@@ -41,7 +41,7 @@ export function Testimonials() {
           {items.map((t, k) => (
             <li key={k} className="w-[82vw] max-w-sm shrink-0 snap-start lg:w-auto lg:max-w-none">
               <Reveal delay={k * 100} className="h-full">
-                <figure className="flex h-full flex-col border border-ink/[0.08] bg-sand p-7 shadow-[0_1px_2px_rgba(0,0,0,.04),0_8px_24px_-12px_rgba(0,0,0,.12)]">
+                <figure className="flex h-full flex-col border border-ink/[0.08] bg-paper p-7 shadow-[0_1px_2px_rgba(0,0,0,.04),0_8px_24px_-12px_rgba(0,0,0,.12)]">
                   <figcaption className="flex items-center gap-3.5">
                     {t.photo ? (
                       <Image src={t.photo} alt="" width={48} height={48} className="size-12 object-cover" />

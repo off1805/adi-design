@@ -43,7 +43,7 @@ export function Faq() {
                   aria-expanded={isOpen}
                   className="group flex w-full items-center gap-5 py-6 text-left"
                 >
-                  <span className="w-8 shrink-0 text-lg font-light text-ink/55 tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="w-8 shrink-0 text-lg font-light text-ink/65 tabular-nums">{String(i + 1).padStart(2, "0")}</span>
                   <span className={`font-title flex-1 text-xl tracking-[-0.01em] transition-colors sm:text-[1.75rem] ${isOpen ? "text-ink" : "text-ink/75 group-hover:text-ink"}`}>{q}</span>
                   <span
                     className={`grid h-10 w-10 shrink-0 place-items-center border transition duration-300 ${

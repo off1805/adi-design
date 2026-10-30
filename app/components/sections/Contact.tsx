@@ -76,7 +76,7 @@ export function Contact() {
           <div className="relative">
             <select name="type" defaultValue={types[0]} aria-label="Type de projet" className={`${field} cursor-pointer appearance-none pr-10`}>
               {types.map((t) => (
-                <option key={t} className="text-ink">
+                <option key={t} className="bg-paper text-ink">
                   {t}
                 </option>
               ))}

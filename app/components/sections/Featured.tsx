@@ -70,7 +70,7 @@ export function Featured() {
             ))}
             {/* Carte de fin : appel à l'action */}
             <li className="w-[var(--fp-w)] shrink-0 snap-start">
-              <div className="flex aspect-[16/10] flex-col justify-end bg-sand p-8 text-white md:p-12">
+              <div className="flex aspect-[16/10] flex-col justify-end bg-ink p-8 text-white md:p-12">
                 <p className="eyebrow text-gold">Votre projet</p>
                 <p className="font-title mt-3 max-w-md text-[2rem] leading-[1.1] md:text-[3rem]">Le prochain intérieur, c’est le vôtre.</p>
                 <a href="#contact" className="btn btn-light mt-8 self-start">

@@ -4,28 +4,29 @@ Référence unique pour le site. Les valeurs vivent dans `app/globals.css` ; ne 
 
 ## Thème
 
-Sombre uniquement (`color-scheme: dark`). Dans le code, `paper` désigne le fond et `ink` le premier plan :
-`text-ink`, `border-ink/10` ou `bg-ink/[0.07]` donnent donc du clair sur sombre.
+Clair. Dans le code, `paper` désigne le fond et `ink` le premier plan (texte, boutons pleins).
+Les sections Méthode, Contact et pied de page sont sombres (`bg-ink-2`, texte blanc).
 
 ## Couleurs
 
 | Token | Valeur | Usage |
 |---|---|---|
-| `ink-2` | `#080706` | Sections les plus sombres : Méthode, Contact, pied de page |
-| `paper` | `#0e0d0c` | Fond principal |
-| `cream` | `#151412` | Sections alternées (Projets, Services, Témoignages) |
-| `sand` | `#1e1c19` | Surfaces : cartes, champs |
-| `stone` | `#2c2925` | Filets, avatars |
-| `ink` | `#f3efe9` | Texte, boutons pleins |
-| `ink-3` | `#ffffff` | Survol des boutons pleins |
-| `muted` | `#a39a8e` | Texte secondaire |
-| `wood` / `gold` | `#c9a96e` | Or : accent en texte (étoiles, chiffres, délais, sur-titres sur fond profond) |
-| `brass` | `#b5914a` | Laiton : filets et puces |
+| `paper` | `#ffffff` | Fond principal, cartes |
+| `cream` | `#faf8f5` | Sections alternées (Projets, Services, Témoignages) |
+| `sand` | `#f1ece4` | Petites surfaces : carte FAQ, étiquettes |
+| `stone` | `#e4ddd2` | Filets, avatars |
+| `ink` | `#0e0d0c` | Texte, boutons pleins |
+| `ink-2` | `#1a1816` | Sections sombres : Méthode, Contact, pied de page |
+| `ink-3` | `#2a2622` | Survol des boutons pleins |
+| `muted` | `#6e655c` | Texte secondaire |
+| `wood` (bronze) | `#7a5c28` | Seul accent en texte sur fond clair : étoiles, chiffres, délais |
+| `brass` (laiton) | `#b5914a` | Filets, puces. Jamais en texte sur fond clair |
+| `gold` (or) | `#c9a96e` | Accent en texte sur fond sombre |
 
 Règles :
-- Le noir domine. La chaleur vient des photos et de l'or, dosé.
-- Sur une photo, toujours un voile noir (`from-black/…`), jamais `ink` (qui est clair).
-- Contrastes vérifiés sur tous les fonds : texte ≥ 14,8:1, `muted` ≥ 6,1:1, or ≥ 7,6:1, laiton ≥ 5,7:1.
+- Le blanc domine. La chaleur vient des photos et de trois accents dosés, pas des fonds.
+- Sur une photo, toujours un voile noir (`from-black/…`).
+- Contrastes : `muted` 5,7:1 sur blanc et 4,9:1 sur `sand` ; `wood` 5,9:1 sur `cream` ; `gold` 8,7:1 sur `ink`.
 
 ## Typographie
 

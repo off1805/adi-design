@@ -47,8 +47,8 @@ export function Header() {
         }`}
       >
         <a href="#top" aria-label={`${siteName}, accueil`} className={`flex items-center gap-3 text-sm font-semibold tracking-[0.2em] uppercase ${light ? "text-white" : "text-ink"}`}>
-          {/* Logo monochrome, toujours en blanc (thème sombre) */}
-          <Image src="/images/logo.png" alt="" width={1076} height={820} priority className="h-auto w-11 brightness-0 invert" />
+          {/* Logo monochrome : blanc sur le hero, noir une fois la barre sur fond clair */}
+          <Image src="/images/logo.png" alt="" width={1076} height={820} priority className={`h-auto w-11 brightness-0 transition ${light ? "invert" : ""}`} />
           <span className="hidden whitespace-nowrap sm:inline">{siteName}</span>
         </a>
 

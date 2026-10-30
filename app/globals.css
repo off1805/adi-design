@@ -1,27 +1,27 @@
 @import "tailwindcss";
 
 /*
- * Identité ADI Design (voir DESIGN.md) : thème sombre uniquement, style carré.
- * Le noir domine, le texte est un blanc cassé, la chaleur de la marque tient
- * dans trois accents : or (texte d'accent), laiton (filets), et les photos.
+ * Identité ADI Design (voir DESIGN.md) : thème clair, style carré.
+ * Le blanc domine, les noirs portent le texte et les sections sombres,
+ * la chaleur de la marque tient dans trois accents : bronze, laiton, or.
  * `paper` = fond, `ink` = premier plan (texte, boutons pleins).
  */
 :root {
-  color-scheme: dark;
-  /* Fonds, du plus profond au plus clair */
-  --ink-2: #080706; /* sections les plus sombres : Méthode, Contact, pied de page */
-  --paper: #0e0d0c; /* fond principal */
-  --cream: #151412; /* sections alternées (Projets, Services, Témoignages) */
-  --sand: #1e1c19; /* surfaces : cartes, champs, étiquettes */
-  --stone: #2c2925; /* filets */
-  /* Premier plan */
-  --ink: #f3efe9; /* texte, boutons pleins */
-  --ink-3: #ffffff; /* survol des boutons pleins */
-  --muted: #a39a8e; /* texte secondaire */
+  color-scheme: light;
+  /* Fonds */
+  --paper: #ffffff; /* fond principal */
+  --cream: #faf8f5; /* sections alternées (Projets, Services, Témoignages) */
+  --sand: #f1ece4; /* surfaces : cartes, étiquettes */
+  --stone: #e4ddd2; /* filets, avatars */
+  /* Noirs */
+  --ink: #0e0d0c; /* texte, boutons pleins */
+  --ink-2: #1a1816; /* sections sombres : Méthode, Contact, pied de page */
+  --ink-3: #2a2622; /* survol des boutons pleins */
+  --muted: #6e655c; /* texte secondaire */
   /* Accents */
-  --wood: #c9a96e; /* or : accent en texte (étoiles, chiffres, délais) */
-  --brass: #b5914a; /* laiton : filets et puces */
-  --gold: #c9a96e;
+  --wood: #7a5c28; /* bronze : seul accent lisible en texte sur fond clair */
+  --brass: #b5914a; /* laiton : filets et puces, jamais en texte sur fond clair */
+  --gold: #c9a96e; /* or : accent en texte sur fond sombre */
 }
 
 @theme inline {
@@ -141,7 +141,7 @@ body {
     @apply border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-paper;
   }
   .btn-light {
-    @apply bg-ink text-paper hover:bg-ink-3;
+    @apply bg-paper text-ink hover:bg-sand;
   }
   .btn-outline-light {
     @apply border border-white/50 text-white hover:border-white hover:bg-white hover:text-paper;
