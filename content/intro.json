@@ -1,0 +1,35 @@
+{
+  "title": "Depuis Yaoundé, notre équipe a transformé des centaines d’intérieurs,",
+  "titleMuted": "de la conception 3D jusqu’à la décoration finale, au prix juste.",
+  "cardText": "Des intérieurs haut de gamme pensés pour vous : staff, LED, menuiserie, peinture et carrelage, avec un seul interlocuteur du début à la fin.",
+  "photo": "/images/salon-tv-marbre.jpg",
+  "photoTitle": "Le luxe chez vous",
+  "fanText": "Des espaces et des histoires de clients qui nous ont confié leur intérieur.",
+  "fanImages": [
+    "/images/chambre-bleue.jpg",
+    "/images/plafond-led.jpg",
+    "/images/cuisine-ilot.jpg"
+  ],
+  "stats": [
+    {
+      "value": 7,
+      "suffix": "+",
+      "label": "années d’expérience"
+    },
+    {
+      "value": 150,
+      "suffix": "+",
+      "label": "projets livrés"
+    },
+    {
+      "value": 7,
+      "suffix": "",
+      "label": "corps de métier"
+    },
+    {
+      "value": 98,
+      "suffix": "%",
+      "label": "clients satisfaits"
+    }
+  ]
+}

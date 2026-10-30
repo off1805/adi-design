@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import type { ScrollTrigger as ST } from "gsap/ScrollTrigger";
-import { FEATURED } from "../../lib/data";
+import { useContent } from "../../lib/ContentProvider";
 import { gsap, MOTION_OK, useGSAP } from "../../lib/gsap";
 import { Magnetic } from "../ui/Magnetic";
 import { Icon } from "../ui/Icon";
@@ -22,7 +22,8 @@ export function Featured() {
   const [active, setActive] = useState(0);
   const trigger = useRef<ST | null>(null);
   const list = useRef<HTMLDivElement>(null);
-  const last = FEATURED.length - 1;
+  const FEATURED = useContent().projets.items;
+  const last = Math.max(0, FEATURED.length - 1);
 
   // Aller à un projet : en 3D on fait défiler la page jusqu'à la bonne position, sinon on fait glisser la liste
   const goTo = (i: number) => {
@@ -59,6 +60,7 @@ export function Featured() {
   useGSAP(
     () => {
       gsap.matchMedia().add(`${MOTION_OK} and (min-width: 768px)`, () => {
+        if (last === 0) return;
         const stage = ref.current!;
         const cards = gsap.utils.toArray<HTMLElement>(".fp-card", stage);
         stage.classList.add("is-animated");
@@ -118,6 +120,7 @@ export function Featured() {
   );
 
   const p = FEATURED[active];
+  if (!p) return null;
 
   return (
     <section id="projets" className="max-md:section-y">
@@ -131,11 +134,11 @@ export function Featured() {
         {/* Cercle 3D (en mode animé) / défilement horizontal natif sinon */}
         <div className="relative shrink-0 [perspective:1800px] group-[.is-animated]/stage:h-[calc(var(--fp-w)*0.625)]">
           <div ref={list} onScroll={onListScroll} className="flex snap-x snap-mandatory gap-1.5 overflow-x-auto px-5 [scrollbar-width:none] [transform-style:preserve-3d] group-[.is-animated]/stage:absolute group-[.is-animated]/stage:inset-0 group-[.is-animated]/stage:overflow-visible group-[.is-animated]/stage:p-0">
-            {FEATURED.map((f) => (
+            {FEATURED.map((f, k) => (
               <figure
-                key={f.title}
+                key={k}
                 className="fp-card relative aspect-[16/10] w-[85vw] shrink-0 snap-center overflow-hidden rounded-[4px] bg-ink [backface-visibility:hidden] group-[.is-animated]/stage:absolute group-[.is-animated]/stage:top-0 group-[.is-animated]/stage:left-1/2 group-[.is-animated]/stage:w-[var(--fp-w)] sm:w-[60vw]">
-                <Image src={f.src} alt={f.title} fill loading="eager" className="object-cover " sizes="(min-width:1024px) 48vw, 85vw" />
+                <Image src={f.image} alt={f.title} fill loading="eager" className="object-cover " sizes="(min-width:1024px) 48vw, 85vw" />
                 <div className="fp-shade absolute inset-0 bg-ink opacity-0" />
                 <figcaption className="absolute top-4 left-4 flex flex-wrap gap-1.5">
                   {f.tags.slice(0, 2).map((t) => (

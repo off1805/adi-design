@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { FAQS, whatsappLink } from "../../lib/data";
+import { useContent, useWhatsapp } from "../../lib/ContentProvider";
 import { Icon } from "../ui/Icon";
 import { SectionHead } from "../ui/SectionHead";
 
 /** FAQ : accordéon animé (une seule réponse ouverte) + carte de contact rapide. */
 export function Faq() {
+  const { faq, contact } = useContent();
+  const whatsappLink = useWhatsapp();
   const [open, setOpen] = useState(0);
 
   return (
@@ -17,7 +19,7 @@ export function Faq() {
             <SectionHead label="Questions fréquentes">On vous répond</SectionHead>
             <div className="mt-10 rounded-[4px] bg-sand p-7">
               <p className="text-lg leading-snug tracking-[-0.02em]">Une autre question ?</p>
-              <p className="mt-2 text-[15px] leading-relaxed text-muted">Écrivez-nous sur WhatsApp, nous répondons rapidement, du lundi au samedi.</p>
+              <p className="mt-2 text-[15px] leading-relaxed text-muted">Écrivez-nous sur WhatsApp, nous répondons rapidement, {contact.hours.toLowerCase()}.</p>
               <a
                 href={whatsappLink()}
                 target="_blank"
@@ -32,10 +34,10 @@ export function Faq() {
         </div>
 
         <ul className="border-t border-ink/10 lg:col-span-8">
-          {FAQS.map(([q, a], i) => {
+          {faq.items.map(({ question: q, answer: a }, i) => {
             const isOpen = open === i;
             return (
-              <li key={q} className="border-b border-ink/10">
+              <li key={i} className="border-b border-ink/10">
                 <button
                   onClick={() => setOpen(isOpen ? -1 : i)}
                   aria-expanded={isOpen}

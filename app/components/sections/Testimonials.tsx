@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { TESTIMONIALS } from "../../lib/data";
+import { useContent } from "../../lib/ContentProvider";
 import { SectionHead } from "../ui/SectionHead";
 
 const DELAY = 7000;
 
 /** Témoignages : une grande citation à la fois, défilement auto avec barres de progression. */
 export function Testimonials() {
+  const TESTIMONIALS = useContent().temoignages.items;
   const [i, setI] = useState(0);
   const [paused, setPaused] = useState(false);
   const n = TESTIMONIALS.length;
@@ -37,14 +38,14 @@ export function Testimonials() {
             <div className="grid" aria-live="polite">
               {TESTIMONIALS.map((t, k) => (
                 <figure
-                  key={t.a}
+                  key={k}
                   aria-hidden={k !== i}
                   className={`col-start-1 row-start-1 transition duration-700 ease-out ${k === i ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-6 opacity-0"}`}
                 >
-                  <blockquote className="max-w-4xl text-[clamp(1.6rem,3.4vw,3rem)] leading-[1.15] tracking-[-0.03em] text-ink">{t.q}</blockquote>
+                  <blockquote className="max-w-4xl text-[clamp(1.6rem,3.4vw,3rem)] leading-[1.15] tracking-[-0.03em] text-ink">{t.quote}</blockquote>
                   <figcaption className="mt-8 flex items-center gap-4">
                     <span className="text-sm text-wood" aria-label="5 étoiles">★★★★★</span>
-                    <span className="text-xs tracking-[0.2em] text-ink/60 uppercase">{t.a}</span>
+                    <span className="text-xs tracking-[0.2em] text-ink/60 uppercase">{t.author}</span>
                   </figcaption>
                 </figure>
               ))}
@@ -52,8 +53,8 @@ export function Testimonials() {
 
             <div className="mt-14 flex items-center gap-6">
               <div className="flex flex-1 gap-2">
-                {TESTIMONIALS.map((t, k) => (
-                  <button key={t.a} onClick={() => setI(k)} aria-label={`Témoignage ${k + 1}`} className="group h-6 flex-1">
+                {TESTIMONIALS.map((_, k) => (
+                  <button key={k} onClick={() => setI(k)} aria-label={`Témoignage ${k + 1}`} className="group h-6 flex-1">
                     <span className="block h-0.5 overflow-hidden bg-ink/15">
                       <span
                         key={k === i ? `${i}-on` : k}

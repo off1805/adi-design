@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { STEPS } from "../../lib/data";
+import { useContent } from "../../lib/ContentProvider";
 import { SectionHead } from "../ui/SectionHead";
 
 const DELAY = 6000;
@@ -14,6 +14,7 @@ const DELAY = 6000;
  */
 export function Process() {
   const ref = useRef<HTMLElement>(null);
+  const { title, aside, steps: STEPS } = useContent().accompagnement;
   const [active, setActive] = useState(0);
   const [auto, setAuto] = useState(true);
   const [inView, setInView] = useState(false);
@@ -28,7 +29,7 @@ export function Process() {
     if (!auto || !inView || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const id = setTimeout(() => setActive((a) => (a + 1) % STEPS.length), DELAY);
     return () => clearTimeout(id);
-  }, [active, auto, inView]);
+  }, [active, auto, inView, STEPS.length]);
 
   // Toute interaction de l'utilisateur arrête le défilement automatique
   const pick = (i: number) => {
@@ -39,8 +40,8 @@ export function Process() {
   return (
     <section ref={ref} className="section-y border-t border-ink/10">
       <div className="container-site">
-        <SectionHead label="Notre méthode" aside="Un seul interlocuteur, du premier rendez-vous à la remise des clés.">
-          Un accompagnement à chaque étape
+        <SectionHead label="Notre méthode" aside={aside}>
+          {title}
         </SectionHead>
 
         <ol className="mt-12 flex flex-col gap-2 lg:h-[460px] lg:flex-row">
@@ -48,7 +49,7 @@ export function Process() {
             const on = i === active;
             return (
               <li
-                key={s.t}
+                key={i}
                 onMouseEnter={() => pick(i)}
                 className={`relative overflow-hidden rounded-[4px] transition-[flex-grow,background-color] duration-700 ease-[cubic-bezier(.7,0,.2,1)] lg:min-w-0 lg:basis-0 ${
                   on ? "bg-ink lg:grow-[3.2]" : "bg-sand lg:grow"
@@ -68,7 +69,7 @@ export function Process() {
                       on ? "text-white lg:opacity-0" : "text-ink"
                     }`}
                   >
-                    {s.t}
+                    {s.title}
                   </span>
                 </button>
 
@@ -80,12 +81,12 @@ export function Process() {
                 >
                   <div className="overflow-hidden lg:h-full">
                     <div className="relative mx-6 aspect-[16/9] overflow-hidden rounded-[4px] lg:absolute lg:inset-0 lg:m-0 lg:aspect-auto lg:rounded-none">
-                      <Image src={s.src} alt={s.t} fill className="object-cover" sizes="(min-width:1024px) 50vw, 100vw" />
+                      <Image src={s.image} alt={s.title} fill className="object-cover" sizes="(min-width:1024px) 50vw, 100vw" />
                       <div className="absolute inset-0 hidden bg-gradient-to-t from-ink via-ink/40 to-ink/10 lg:block" />
                     </div>
                     <div className="p-6 text-white lg:absolute lg:inset-x-0 lg:bottom-0 lg:p-8">
-                      <h3 className="hidden text-[clamp(1.5rem,2.4vw,2.25rem)] leading-tight tracking-[-0.03em] lg:block">{s.t}</h3>
-                      <p className="max-w-md text-[15px] leading-relaxed text-white/80 lg:mt-2 lg:text-base">{s.d}</p>
+                      <h3 className="hidden text-[clamp(1.5rem,2.4vw,2.25rem)] leading-tight tracking-[-0.03em] lg:block">{s.title}</h3>
+                      <p className="max-w-md text-[15px] leading-relaxed text-white/80 lg:mt-2 lg:text-base">{s.text}</p>
                     </div>
                   </div>
                 </div>

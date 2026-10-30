@@ -2,11 +2,12 @@
 
 import Image from "next/image";
 import { useRef } from "react";
-import { img } from "../../lib/data";
+import { useContent } from "../../lib/ContentProvider";
 import { gsap, MOTION_OK, padMasks, SplitText, useGSAP } from "../../lib/gsap";
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);
+  const { hero, settings } = useContent();
 
   useGSAP(
     () => {
@@ -32,23 +33,21 @@ export function Hero() {
     <section ref={ref} id="top">
       <div className="hero-frame relative h-svh min-h-[560px] overflow-hidden">
         <div className="hero-media absolute inset-0">
-          <Image src={img("hero-chambre")} alt="Intérieur réalisé par ADI Design" fill priority className="object-cover" sizes="100vw" />
+          <Image src={hero.image} alt={`Intérieur réalisé par ${settings.siteName}`} fill priority className="object-cover" sizes="100vw" />
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/10 to-black/50" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,.45),transparent_65%)]" />
 
         <div className="hero-content absolute inset-0 grid place-items-center px-4 text-center text-white">
           <div>
-            <h1 className="hero-title text-[clamp(3.5rem,12vw,11rem)] leading-[0.9] tracking-[-0.045em]">ADI Design</h1>
-            <p className="hero-fade mx-auto mt-8 max-w-xl sm:mt-10 text-base leading-relaxed text-white/85 sm:text-lg">
-              Architecture d’intérieur clé en main à Yaoundé, du crépissage à la décoration finale.
-            </p>
+            <h1 className="hero-title text-[clamp(3.5rem,12vw,11rem)] leading-[0.9] tracking-[-0.045em]">{settings.siteName}</h1>
+            <p className="hero-fade mx-auto mt-8 max-w-xl sm:mt-10 text-base leading-relaxed text-white/85 sm:text-lg">{hero.subtitle}</p>
             <div className="hero-fade mt-8 flex flex-wrap items-center justify-center gap-3">
               <a href="#contact" className="btn btn-light">
-                Demander un devis gratuit
+                {hero.primaryCta}
               </a>
               <a href="#projets" className="btn btn-outline-light backdrop-blur-sm">
-                Voir nos projets
+                {hero.secondaryCta}
               </a>
             </div>
           </div>

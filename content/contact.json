@@ -1,0 +1,25 @@
+{
+  "phoneDisplay": "6 93 89 42 22",
+  "phoneIntl": "237693894222",
+  "whatsappIntl": "237693894222",
+  "hours": "Du lundi au samedi",
+  "opens": "08:00",
+  "closes": "18:00",
+  "address": "Mvog Bi",
+  "city": "Yaoundé",
+  "mapsUrl": null,
+  "socials": [
+    {
+      "platform": "Facebook",
+      "url": "https://www.facebook.com/share/19zHQNsDmQ/"
+    },
+    {
+      "platform": "Instagram",
+      "url": "https://www.instagram.com/adidesigncameroun"
+    },
+    {
+      "platform": "TikTok",
+      "url": "https://www.tiktok.com/@adi.design.camero"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { CONTACT, whatsappLink } from "../../lib/data";
+import { useContent, useWhatsapp } from "../../lib/ContentProvider";
 import { Icon } from "../ui/Icon";
 import { Reveal } from "../ui/Reveal";
 import { SplitReveal } from "../ui/SplitReveal";
@@ -10,12 +10,14 @@ const PROJECT_TYPES = ["Aménagement complet", "Cuisine sur mesure", "Meuble TV 
 
 /** Contact sur fond sombre : coordonnées à gauche, formulaire (→ WhatsApp) à droite. */
 export function Contact() {
+  const { contact: CONTACT, settings } = useContent();
+  const whatsappLink = useWhatsapp();
   const [sent, setSent] = useState(false);
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const d = new FormData(e.currentTarget);
-    const msg = `Bonjour ADI Design 👋\n\nNom : ${d.get("name")}\nTéléphone : ${d.get("phone")}\nProjet : ${d.get("type")}\n\n${d.get("message")}`;
+    const msg = `Bonjour ${settings.siteName} 👋\n\nNom : ${d.get("name")}\nTéléphone : ${d.get("phone")}\nProjet : ${d.get("type")}\n\n${d.get("message")}`;
     window.open(whatsappLink(msg), "_blank");
     setSent(true);
   }
@@ -48,7 +50,7 @@ export function Contact() {
             </div>
             <div>
               <dt className={label}>Horaires</dt>
-              <dd className="mt-2 text-[15px] text-white/85">Du lundi au samedi</dd>
+              <dd className="mt-2 text-[15px] text-white/85">{CONTACT.hours}</dd>
             </div>
             <div className="sm:col-span-2">
               <dt className={label}>Adresse</dt>
@@ -56,6 +58,12 @@ export function Contact() {
                 {CONTACT.address}
                 <br />
                 {CONTACT.city}, Cameroun
+                {CONTACT.mapsUrl && (
+                  <a href={CONTACT.mapsUrl} target="_blank" rel="noopener" className="mt-2 flex items-center gap-1.5 text-white underline underline-offset-4 transition-colors hover:text-white/70">
+                    Voir sur la carte
+                    <Icon name="arrow-up-right" size={14} />
+                  </a>
+                )}
               </dd>
             </div>
           </dl>

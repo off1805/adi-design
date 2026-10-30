@@ -2,11 +2,10 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import { SERVICES } from "../../lib/data";
+import { useContent } from "../../lib/ContentProvider";
 import { Icon } from "../ui/Icon";
 import { SectionHead } from "../ui/SectionHead";
 
-const n = SERVICES.length;
 const pad = (i: number) => String(i + 1).padStart(2, "0");
 
 /**
@@ -15,13 +14,15 @@ const pad = (i: number) => String(i + 1).padStart(2, "0");
  * cartes complètes en défilement horizontal avec pagination.
  */
 export function Services() {
+  const { title, items: SERVICES } = useContent().solutions;
+  const n = SERVICES.length;
   const [active, setActive] = useState(0);
   const [shot, setShot] = useState(0);
   const [slide, setSlide] = useState(0);
   const hoverTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
   const track = useRef<HTMLUListElement>(null);
-  const s = SERVICES[active];
+  const s = SERVICES[Math.min(active, n - 1)];
 
   const pick = (i: number) => {
     clearTimeout(hoverTimer.current);
@@ -59,18 +60,20 @@ export function Services() {
     card?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
   };
 
+  if (!s) return null;
+
   return (
     <section id="services" className="section-y bg-beige">
       <div className="container-site">
         {/* Mobile : titre seul ; grand écran : le titre passe en tête de la colonne de gauche */}
         <div className="lg:hidden">
-          <SectionHead label="Nos services">Des solutions pensées pour vous</SectionHead>
+          <SectionHead label="Nos services">{title}</SectionHead>
         </div>
 
         {/* Grand écran : titre + liste à gauche, aperçu aligné en haut à droite */}
         <div className="hidden items-start gap-12 lg:grid lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)]" onMouseLeave={() => clearTimeout(hoverTimer.current)}>
           <div className="flex flex-col">
-            <SectionHead label="Nos services">Des solutions pensées pour vous</SectionHead>
+            <SectionHead label="Nos services">{title}</SectionHead>
             <div role="tablist" aria-label="Nos services" aria-orientation="vertical" onKeyDown={onKey} className="mt-10 border-t border-ink/10">
               {SERVICES.map((x, i) => {
                 const on = i === active;
@@ -117,12 +120,12 @@ export function Services() {
           <div id="svc-panel" role="tabpanel" aria-labelledby={`svc-tab-${active}`} className="sticky top-24">
             <div className="flex flex-col rounded-[4px] bg-paper p-3">
               {/* Photo principale : seules les photos du service actif sont rendues */}
-              <div key={s.title} className="relative aspect-[16/10] animate-[fp-in_0.5s_ease-out] overflow-hidden rounded-[4px] bg-stone">
+              <div key={active} className="relative aspect-[16/10] animate-[fp-in_0.5s_ease-out] overflow-hidden rounded-[4px] bg-stone">
                 {s.images.map((src, k) => (
                   <Image
-                    key={src}
+                    key={k}
                     src={src}
-                    alt={`${s.title}, réalisation ADI Design ${k + 1}`}
+                    alt={`${s.title}, réalisation ${k + 1}`}
                     fill
                     className={`object-cover transition duration-700 ease-out ${k === shot ? "scale-100 opacity-100" : "scale-[1.04] opacity-0"}`}
                     sizes="(min-width:1200px) 680px, 58vw"
@@ -136,7 +139,7 @@ export function Services() {
                 <div className="absolute right-4 bottom-4 flex gap-2">
                   {s.images.map((src, k) => (
                     <button
-                      key={src}
+                      key={k}
                       onClick={() => setShot(k)}
                       onMouseEnter={() => setShot(k)}
                       aria-label={`Voir la photo ${k + 1} sur ${s.images.length}`}
@@ -151,7 +154,7 @@ export function Services() {
                 </div>
               </div>
 
-              <div key={`t-${s.title}`} className="flex animate-[fp-in_0.5s_ease-out] flex-col gap-5 p-5">
+              <div key={`t-${active}`} className="flex animate-[fp-in_0.5s_ease-out] flex-col gap-5 p-5">
                 <div>
                   <h3 className="text-2xl tracking-[-0.03em]">{s.title}</h3>
                   <p className="mt-2 max-w-lg text-[15px] leading-relaxed text-muted">{s.text}</p>
@@ -183,7 +186,7 @@ export function Services() {
           {SERVICES.map((x, i) => (
             <li key={x.title} className="flex w-[82vw] max-w-sm shrink-0 snap-start flex-col rounded-[4px] bg-paper p-3">
               <div className="relative aspect-[16/10] overflow-hidden rounded-[4px] bg-stone">
-                <Image src={x.images[0]} alt={`${x.title}, réalisation ADI Design`} fill className="object-cover" sizes="(min-width:640px) 384px, 82vw" />
+                <Image src={x.images[0]} alt={`${x.title}, réalisation`} fill className="object-cover" sizes="(min-width:640px) 384px, 82vw" />
               </div>
               <div className="flex flex-1 flex-col p-3 pt-5">
                 <span className="text-sm font-light text-wood tabular-nums">{pad(i)}</span>

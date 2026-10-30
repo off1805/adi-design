@@ -3,19 +3,11 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { gsap, MOTION_OK, useGSAP } from "../../lib/gsap";
-import { img } from "../../lib/data";
+import { useContent } from "../../lib/ContentProvider";
 import { Counter } from "../ui/Counter";
 import { Icon, type IconName } from "../ui/Icon";
 import { Reveal } from "../ui/Reveal";
 import { SplitReveal } from "../ui/SplitReveal";
-
-// ⚠️ Chiffres d’exemple — à remplacer par les vrais chiffres d’ADI avant la mise en ligne.
-const STATS = [
-  { v: 7, s: "+", l: "années d’expérience" },
-  { v: 150, s: "+", l: "projets livrés" },
-  { v: 7, s: "", l: "corps de métier" },
-  { v: 98, s: "%", l: "clients satisfaits" },
-];
 
 const PERKS: { icon: IconName; l: string }[] = [
   { icon: "cube", l: "Conception\n3D offerte" },
@@ -23,9 +15,13 @@ const PERKS: { icon: IconName; l: string }[] = [
   { icon: "sparkle", l: "Finitions\nsoignées" },
 ];
 
+// Position des trois photos en éventail
+const FAN = ["left-0 top-8 -rotate-6", "left-[28%] top-3 rotate-3 z-10", "left-[56%] top-0 rotate-12 z-20"];
+
 /* Section « À propos » : pastille + grand titre, trio de cartes, chiffres clés */
 export function Intro() {
   const ref = useRef<HTMLElement>(null);
+  const { intro, settings } = useContent();
   useGSAP(
     () => {
       gsap.matchMedia().add(MOTION_OK, () => {
@@ -63,8 +59,8 @@ export function Intro() {
         </Reveal>
         <div className="lg:col-span-9">
           <SplitReveal className="text-[clamp(1.75rem,3.6vw,3.25rem)] leading-[1.1] font-medium tracking-[-0.03em]">
-            Depuis Yaoundé, notre équipe a transformé des centaines d’intérieurs,{" "}
-            <span className="text-muted">de la conception 3D jusqu’à la décoration finale, au prix juste.</span>
+            {intro.title}{" "}
+            <span className="text-muted">{intro.titleMuted}</span>
           </SplitReveal>
         </div>
       </div>
@@ -77,8 +73,7 @@ export function Intro() {
               <Icon name="arrow-up-right" />
             </span>
             <p className="mt-auto pt-10 text-[15px] leading-relaxed">
-              Des intérieurs haut de gamme pensés pour vous : staff, LED, menuiserie, peinture et carrelage, avec un
-              seul interlocuteur du début à la fin.
+              {intro.cardText}
             </p>
             <ul className="mt-5 flex gap-5">
               {PERKS.map((p) => (
@@ -97,27 +92,23 @@ export function Intro() {
 
         <Reveal delay={100} className="h-full">
           <article className="intro-photo relative h-full min-h-[340px] overflow-hidden rounded-[4px]">
-            <Image src={img("salon-tv-marbre")} alt="Salon réalisé par ADI Design" fill className="object-cover" sizes="(min-width:768px) 33vw, 100vw" />
+            <Image src={intro.photo} alt={`Réalisation ${settings.siteName}`} fill className="object-cover" sizes="(min-width:768px) 33vw, 100vw" />
             <div className="absolute inset-0 bg-gradient-to-b from-ink/40 to-transparent to-40%" />
-            <h3 className="absolute top-6 left-7 text-2xl font-medium tracking-[-0.02em] text-white">Le luxe chez vous</h3>
+            <h3 className="absolute top-6 left-7 text-2xl font-medium tracking-[-0.02em] text-white">{intro.photoTitle}</h3>
           </article>
         </Reveal>
 
         <Reveal delay={200} className="h-full">
           <article className="flex h-full flex-col rounded-[4px] bg-cream p-7">
             <div className="intro-fan relative mx-auto h-44 w-full max-w-[260px]">
-              {[
-                { n: "chambre-bleue", c: "left-0 top-8 -rotate-6" },
-                { n: "plafond-led", c: "left-[28%] top-3 rotate-3 z-10" },
-                { n: "cuisine-ilot", c: "left-[56%] top-0 rotate-12 z-20" },
-              ].map((p) => (
-                <div key={p.n} className={`absolute h-32 w-24 overflow-hidden rounded-[4px] border-4 border-white shadow-lg ${p.c}`}>
-                  <Image src={img(p.n)} alt="Réalisation ADI Design" fill className="object-cover" sizes="120px" />
+              {intro.fanImages.slice(0, 3).map((src, k) => (
+                <div key={k} className={`absolute h-32 w-24 overflow-hidden rounded-[4px] border-4 border-white shadow-lg ${FAN[k]}`}>
+                  <Image src={src} alt={`Réalisation ${settings.siteName}`} fill className="object-cover" sizes="120px" />
                 </div>
               ))}
             </div>
             <p className="mt-auto pt-8 text-[15px] leading-relaxed">
-              Des espaces et des histoires de clients qui nous ont confié leur intérieur.
+              {intro.fanText}
             </p>
           </article>
         </Reveal>
@@ -125,12 +116,12 @@ export function Intro() {
 
       {/* Chiffres clés */}
       <Reveal delay={100} className="mt-14 grid grid-cols-2 gap-8 text-center md:grid-cols-4">
-        {STATS.map((k) => (
-          <div key={k.l}>
+        {intro.stats.map((k) => (
+          <div key={k.label}>
             <p className="text-4xl font-medium tracking-[-0.04em]">
-              <Counter to={k.v} suffix={k.s} />
+              <Counter to={k.value ?? 0} suffix={k.suffix} />
             </p>
-            <p className="mt-2 text-sm text-muted">{k.l}</p>
+            <p className="mt-2 text-sm text-muted">{k.label}</p>
           </div>
         ))}
       </Reveal>

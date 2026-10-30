@@ -1,0 +1,20 @@
+{
+  "items": [
+    {
+      "question": "La consultation est-elle gratuite ?",
+      "answer": "Oui. Nous nous déplaçons, écoutons votre besoin et vous conseillons sans engagement."
+    },
+    {
+      "question": "Puis-je voir le résultat avant les travaux ?",
+      "answer": "Chaque projet commence par une conception 3D que vous validez avant toute intervention."
+    },
+    {
+      "question": "Intervenez-vous sur un chantier brut ?",
+      "answer": "Oui, après le gros œuvre : crépissage, staff, carrelage, peinture jusqu’à l’aménagement complet."
+    },
+    {
+      "question": "Quels sont les délais ?",
+      "answer": "Un planning précis vous est remis avec le devis, et nous le respectons."
+    }
+  ]
+}

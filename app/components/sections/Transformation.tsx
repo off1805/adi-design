@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { img } from "../../lib/data";
+import { useContent } from "../../lib/ContentProvider";
 import { FINE_POINTER, gsap, MOTION_OK, useGSAP } from "../../lib/gsap";
 import { Icon } from "../ui/Icon";
 import { SectionHead } from "../ui/SectionHead";
@@ -10,6 +10,7 @@ import { SectionHead } from "../ui/SectionHead";
 /** Avant / Après : l'image s'ouvre au scroll, le curseur balaie seul puis suit la souris ou le doigt. */
 export function Transformation() {
   const ref = useRef<HTMLElement>(null);
+  const { title, aside, before, after, caption } = useContent().transformation;
   const [pos, setPos] = useState(50);
   // Dès que l'utilisateur prend la main, le balayage automatique s'arrête
   const touched = useRef(false);
@@ -59,8 +60,8 @@ export function Transformation() {
   return (
     <section ref={ref} className="section-y">
       <div className="container-site">
-        <SectionHead label="Avant / Après" aside="Survolez ou faites glisser : même mur, même angle. Un exemple réel d’intervention ADI Design.">
-          Du mur brut à la pièce signature
+        <SectionHead label="Avant / Après" aside={aside}>
+          {title}
         </SectionHead>
 
         <div
@@ -68,9 +69,9 @@ export function Transformation() {
           onPointerDown={follow}
           className="tr-frame relative mt-12 aspect-square max-h-[62vh] w-full cursor-ew-resize touch-pan-y select-none overflow-hidden rounded-[4px] bg-ink sm:aspect-[2/1]"
         >
-          <Image src={img("mur-apres")} alt="Après intervention ADI Design" fill className="object-cover" sizes="(min-width:1200px) 1200px, 100vw" />
+          <Image src={after} alt="Après intervention" fill className="object-cover" sizes="(min-width:1200px) 1200px, 100vw" />
           <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
-            <Image src={img("mur-avant")} alt="Avant intervention" fill className="object-cover grayscale-[35%]" sizes="(min-width:1200px) 1200px, 100vw" />
+            <Image src={before} alt="Avant intervention" fill className="object-cover grayscale-[35%]" sizes="(min-width:1200px) 1200px, 100vw" />
           </div>
 
           {/* Étiquettes : chacune s'efface quand son côté est presque masqué */}
@@ -111,7 +112,7 @@ export function Transformation() {
         </div>
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
-          <p className="max-w-md text-[15px] leading-relaxed text-muted">Chaque transformation est d’abord validée en 3D, avant le premier coup de truelle.</p>
+          <p className="max-w-md text-[15px] leading-relaxed text-muted">{caption}</p>
           <a href="#contact" className="btn btn-primary">
             Transformer mon intérieur
             <Icon name="arrow-up-right" />

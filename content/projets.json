@@ -1,0 +1,70 @@
+{
+  "items": [
+    {
+      "image": "/images/salon-tv-marbre.jpg",
+      "title": "Salon Marbre & Lumière",
+      "place": "Yaoundé",
+      "tags": [
+        "Mur TV",
+        "Staff LED",
+        "Niches bois"
+      ],
+      "text": "Un mur TV en marbre encadré de niches rétroéclairées et d’un plafond staff lumineux."
+    },
+    {
+      "image": "/images/cuisine-ilot.jpg",
+      "title": "Cuisine Îlot Noyer",
+      "place": "Yaoundé",
+      "tags": [
+        "Cuisine",
+        "Sur mesure",
+        "Éclairage"
+      ],
+      "text": "Laque blanche, noyer et plan noir : une cuisine ouverte pensée autour d’un îlot convivial."
+    },
+    {
+      "image": "/images/dressing-verre.jpg",
+      "title": "Dressing Vitré",
+      "place": "Yaoundé",
+      "tags": [
+        "Dressing",
+        "Verre fumé",
+        "LED"
+      ],
+      "text": "Portes vitrées cadre noir, éclairage intégré et rangements pensés au centimètre près."
+    },
+    {
+      "image": "/images/plafond-led.jpg",
+      "title": "Plafond Lumineux",
+      "place": "Yaoundé",
+      "tags": [
+        "Staff",
+        "LED",
+        "Plafond"
+      ],
+      "text": "Un plafond staff à plusieurs niveaux, souligné de rubans LED pour une lumière douce et indirecte."
+    },
+    {
+      "image": "/images/meuble-tv-cheminee.jpg",
+      "title": "Meuble TV Cheminée",
+      "place": "Yaoundé",
+      "tags": [
+        "Meuble TV",
+        "Marbre",
+        "Niches"
+      ],
+      "text": "Panneau marbre, cheminée électrique et colonnes lumineuses : le séjour devient une pièce signature."
+    },
+    {
+      "image": "/images/hero-chambre.jpg",
+      "title": "Séjour Contemporain",
+      "place": "Yaoundé",
+      "tags": [
+        "Lambris",
+        "Marbre",
+        "Décoration"
+      ],
+      "text": "Lambris noyer, marbre veiné et mobilier doux pour un séjour chaleureux et lumineux."
+    }
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "title": "Des solutions pensées pour vous",
+  "items": [
+    {
+      "title": "Conception 3D",
+      "text": "Plans et rendus réalistes de votre futur intérieur, validés avec vous avant le premier coup de marteau.",
+      "items": [
+        "Relevé et plans d’aménagement",
+        "Rendus 3D photoréalistes",
+        "Choix des matériaux et couleurs",
+        "Ajustements jusqu’à validation"
+      ],
+      "images": [
+        "/images/rendu-3d-salon.jpg",
+        "/images/conception-3d.jpg",
+        "/images/rendu-3d-cave.jpg",
+        "/images/salon-tv-livraison.jpg"
+      ]
+    },
+    {
+      "title": "Aménagement complet",
+      "text": "Du gros œuvre à la décoration finale, nous coordonnons tous les corps de métier avec un seul interlocuteur.",
+      "items": [
+        "Coordination de chantier",
+        "Salons, chambres et cuisines",
+        "Éclairage et décoration",
+        "Livraison clé en main"
+      ],
+      "images": [
+        "/images/salon-tv-marbre.jpg",
+        "/images/chambre-lambris.jpg",
+        "/images/cuisine-ilot.jpg",
+        "/images/meuble-tv-cheminee.jpg"
+      ]
+    },
+    {
+      "title": "Staff & plafonds",
+      "text": "Plafonds suspendus, corniches et moulures, avec éclairage LED intégré pour une lumière douce et indirecte.",
+      "items": [
+        "Faux plafonds à niveaux",
+        "Corniches et moulures",
+        "Rubans et spots LED",
+        "Plafonds décoratifs"
+      ],
+      "images": [
+        "/images/plafond-led.jpg",
+        "/images/plafond-staff.jpg",
+        "/images/plafond-chantier.jpg",
+        "/images/chambre-plafond-ciel.jpg"
+      ]
+    },
+    {
+      "title": "Mobilier sur mesure",
+      "text": "Cuisines, dressings, placards et meubles TV dessinés et fabriqués pour s’adapter parfaitement à votre espace.",
+      "items": [
+        "Cuisines équipées",
+        "Dressings et placards",
+        "Meubles TV et niches",
+        "Bureaux et rangements"
+      ],
+      "images": [
+        "/images/dressing-verre.jpg",
+        "/images/cuisine-blanche.jpg",
+        "/images/dressing-led.jpg",
+        "/images/meuble-tv-blanc.jpg"
+      ]
+    },
+    {
+      "title": "Carrelage",
+      "text": "Sols et murs résistants et esthétiques, posés au millimètre, du grès cérame au marbre.",
+      "items": [
+        "Pose de sols",
+        "Revêtements muraux",
+        "Crédences et salles de bain",
+        "Finitions et joints"
+      ],
+      "images": [
+        "/images/mur-apres.jpg",
+        "/images/cuisine-angle.jpg",
+        "/images/cuisine-lineaire.jpg",
+        "/images/mur-marbre-led.jpg"
+      ]
+    },
+    {
+      "title": "Crépissage & peinture",
+      "text": "Des murs parfaitement préparés et des teintes choisies avec vous pour sublimer chaque pièce.",
+      "items": [
+        "Crépissage et enduits",
+        "Peinture intérieure",
+        "Effets décoratifs",
+        "Lambris et habillages muraux"
+      ],
+      "images": [
+        "/images/mur-tv-pose.jpg",
+        "/images/lambris-pose.jpg",
+        "/images/mur-avant.jpg",
+        "/images/chambre-bleue.jpg"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "title": "Un accompagnement à chaque étape",
+  "aside": "Un seul interlocuteur, du premier rendez-vous à la remise des clés.",
+  "steps": [
+    {
+      "title": "Écoute",
+      "text": "Visite et consultation gratuites : votre espace, vos goûts, votre budget.",
+      "image": "/images/chantier-laser.jpg"
+    },
+    {
+      "title": "Conception 3D",
+      "text": "Vous voyez le résultat final avant le début des travaux.",
+      "image": "/images/rendu-3d-salon.jpg"
+    },
+    {
+      "title": "Réalisation",
+      "text": "Staff, carrelage, menuiserie, LED, avec suivi de chantier.",
+      "image": "/images/equipe-pose.jpg"
+    },
+    {
+      "title": "Livraison",
+      "text": "Finitions contrôlées, délais respectés.",
+      "image": "/images/salon-tv-livraison.jpg"
+    }
+  ]
+}
