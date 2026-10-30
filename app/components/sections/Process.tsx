@@ -1,105 +1,45 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
 import { useContent } from "../../lib/ContentProvider";
+import { Reveal } from "../ui/Reveal";
 import { SectionHead } from "../ui/SectionHead";
 
-const DELAY = 6000;
-
 /**
- * Méthode en panneaux extensibles : les quatre étapes restent visibles côte à côte,
- * l'étape active s'élargit (photo + texte). Survol, clic ou clavier pour changer ;
- * défilement automatique tant que la section est à l'écran et que personne n'y touche.
+ * Méthode en frise : les étapes côte à côte, reliées par un filet doré.
+ * Aucune interaction ni lecture automatique : tout se lit d'un coup d'œil.
+ * Mobile : étapes empilées, filet vertical à gauche.
  */
 export function Process() {
-  const ref = useRef<HTMLElement>(null);
-  const { title, aside, steps: STEPS } = useContent().accompagnement;
-  const [active, setActive] = useState(0);
-  const [auto, setAuto] = useState(true);
-  const [inView, setInView] = useState(false);
-
-  useEffect(() => {
-    const io = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.4 });
-    if (ref.current) io.observe(ref.current);
-    return () => io.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!auto || !inView || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const id = setTimeout(() => setActive((a) => (a + 1) % STEPS.length), DELAY);
-    return () => clearTimeout(id);
-  }, [active, auto, inView, STEPS.length]);
-
-  // Toute interaction de l'utilisateur arrête le défilement automatique
-  const pick = (i: number) => {
-    setAuto(false);
-    setActive(i);
-  };
+  const { title, aside, steps } = useContent().accompagnement;
 
   return (
-    <section ref={ref} className="section-y border-t border-ink/10">
+    <section className="section-y bg-ink-2 text-white">
       <div className="container-site">
-        <SectionHead label="Notre méthode" aside={aside}>
+        <SectionHead dark label="Notre méthode" aside={aside}>
           {title}
         </SectionHead>
 
-        <ol className="mt-12 flex flex-col gap-2 lg:h-[460px] lg:flex-row">
-          {STEPS.map((s, i) => {
-            const on = i === active;
-            return (
-              <li
-                key={i}
-                onMouseEnter={() => pick(i)}
-                className={`relative overflow-hidden rounded-[4px] transition-[flex-grow,background-color] duration-700 ease-[cubic-bezier(.7,0,.2,1)] lg:min-w-0 lg:basis-0 ${
-                  on ? "bg-ink lg:grow-[3.2]" : "bg-sand lg:grow"
-                }`}
-              >
-                <button
-                  onClick={() => pick(i)}
-                  onFocus={() => pick(i)}
-                  aria-expanded={on}
-                  className="flex w-full items-baseline gap-4 p-6 text-left lg:absolute lg:inset-0 lg:z-10 lg:flex-col lg:items-start lg:justify-between lg:gap-0"
-                >
-                  <span className={`text-2xl font-light tabular-nums transition-colors duration-500 ${on ? "text-wood" : "text-ink/45"}`}>
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <span
-                    className={`text-[clamp(1.35rem,2vw,1.75rem)] leading-tight tracking-[-0.03em] transition duration-500 ${
-                      on ? "text-white lg:opacity-0" : "text-ink"
-                    }`}
-                  >
-                    {s.title}
-                  </span>
-                </button>
+        <ol className="relative mt-14 grid gap-10 max-lg:border-l max-lg:border-white/15 max-lg:pl-8 lg:grid-cols-4 lg:gap-6">
+          {/* Filet qui relie les étapes (desktop) */}
+          <span className="absolute top-[7px] right-0 left-0 hidden h-px bg-gradient-to-r from-gold/70 via-gold/30 to-transparent lg:block" aria-hidden />
 
-                {/* Contenu de l'étape active : photo en fond, texte en bas (mobile : déplié sous le titre) */}
-                <div
-                  className={`pointer-events-none grid transition-[grid-template-rows,opacity] duration-500 lg:absolute lg:inset-0 lg:block ${
-                    on ? "grid-rows-[1fr] opacity-100 lg:delay-200" : "grid-rows-[0fr] opacity-0"
-                  }`}
-                >
-                  <div className="overflow-hidden lg:h-full">
-                    <div className="relative mx-6 aspect-[16/9] overflow-hidden rounded-[4px] lg:absolute lg:inset-0 lg:m-0 lg:aspect-auto lg:rounded-none">
-                      <Image src={s.image} alt={s.title} fill className="object-cover" sizes="(min-width:1024px) 50vw, 100vw" />
-                      <div className="absolute inset-0 hidden bg-gradient-to-t from-ink via-ink/40 to-ink/10 lg:block" />
-                    </div>
-                    <div className="p-6 text-white lg:absolute lg:inset-x-0 lg:bottom-0 lg:p-8">
-                      <h3 className="hidden text-[clamp(1.5rem,2.4vw,2.25rem)] leading-tight tracking-[-0.03em] lg:block">{s.title}</h3>
-                      <p className="max-w-md text-[15px] leading-relaxed text-white/80 lg:mt-2 lg:text-base">{s.text}</p>
-                    </div>
+          {steps.map((s, i) => (
+            <li key={i} className="relative">
+              <Reveal delay={i * 120}>
+                {/* Jalon sur le filet */}
+                <span className="absolute top-0 size-[15px] border-2 border-gold bg-ink-2 max-lg:-left-[40px] lg:left-0" aria-hidden />
+                <p className="pt-8 text-sm font-medium text-gold tabular-nums lg:pt-10">{String(i + 1).padStart(2, "0")}</p>
+                <h3 className="font-title mt-2 text-2xl leading-tight">{s.title}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-white/70">{s.text}</p>
+                {s.image && (
+                  <div className="relative mt-6 aspect-[4/3] overflow-hidden bg-cream">
+                    <Image src={s.image} alt={s.title} fill className="object-cover" sizes="(min-width:1024px) 25vw, 100vw" />
                   </div>
-                </div>
-
-                {/* Progression du défilement automatique */}
-                {on && auto && inView && (
-                  <span className="absolute inset-x-0 bottom-0 z-10 h-0.5 bg-white/15 motion-reduce:hidden">
-                    <span key={active} className="block h-full origin-left animate-[step-progress_6s_linear_forwards] bg-wood" />
-                  </span>
                 )}
-              </li>
-            );
-          })}
+              </Reveal>
+            </li>
+          ))}
         </ol>
       </div>
     </section>

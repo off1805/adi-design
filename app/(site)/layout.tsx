@@ -71,11 +71,21 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     areaServed: { "@type": "Country", name: "Cameroun" },
     openingHoursSpecification: {
       "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      dayOfWeek: contact.openDays,
       opens: contact.opens,
       closes: contact.closes,
     },
     sameAs: contact.socials.map((s) => s.url),
+  };
+  // Nom du site affiché par Google au-dessus de l'adresse dans les résultats
+  const website = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
+    name: settings.siteName,
+    url: SITE_URL,
+    inLanguage: "fr",
+    publisher: { "@id": `${SITE_URL}/#business` },
   };
   return (
     <html
@@ -85,7 +95,7 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col">
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify([jsonLd, website]).replace(/</g, "\\u003c") }}
         />
         {children}
       </body>

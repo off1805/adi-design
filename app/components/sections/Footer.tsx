@@ -20,9 +20,9 @@ export function Footer() {
   const { contact: CONTACT, settings, solutions, year } = useContent();
   const whatsappLink = useWhatsapp();
   return (
-    <footer className="bg-ink-2 pb-8 text-white">
+    <footer className="bg-ink-2 pb-8 text-white max-md:pb-24">
       <div className="container-site">
-        <div className="border-t border-white/10 pt-14">
+        <div className="pt-14">
         <div className="grid grid-cols-2 gap-x-6 gap-y-12 lg:grid-cols-12">
           <div className="col-span-2 lg:col-span-4">
             <Image src="/images/logo.png" alt={settings.siteName} width={1076} height={820} className="h-auto w-20 brightness-0 invert" />
@@ -37,7 +37,7 @@ export function Footer() {
                     target="_blank"
                     rel="noopener"
                     aria-label={`${settings.siteName} sur ${label}`}
-                    className="grid h-10 w-10 place-items-center rounded-full border border-white/15 text-white/80 transition hover:border-white hover:bg-white hover:text-ink"
+                    className="grid h-10 w-10 place-items-center border border-white/15 text-white/80 transition hover:border-white hover:bg-white hover:text-black"
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
                       <path d={ICONS[label]} />
@@ -110,12 +110,21 @@ export function Footer() {
   );
 }
 
+const WA_ICON =
+  "M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 2.5 1 3 .8 3.6.7.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z";
+
+/**
+ * Contact permanent.
+ * Mobile : barre fixée en bas de l'écran, « WhatsApp » + « Appeler », dans la zone du pouce.
+ * Desktop : bouton rond WhatsApp en bas à droite, masqué pendant qu'on descend.
+ * Les deux s'effacent quand la section Contact est à l'écran (elle propose déjà ces actions).
+ */
 export function WhatsAppButton() {
   const whatsappLink = useWhatsapp();
-  // Masqué quand il recouvrirait des actions importantes (carrousel des projets, formulaire de contact)
-  const [hidden, setHidden] = useState(false);
-  // Masqué aussi pendant qu'on descend (il ne cache plus le contenu en lecture), réapparaît dès qu'on remonte
+  const { contact, settings } = useContent();
+  const [overContact, setOverContact] = useState(false);
   const [down, setDown] = useState(false);
+
   useEffect(() => {
     let last = window.scrollY;
     const onScroll = () => {
@@ -129,31 +138,50 @@ export function WhatsAppButton() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
   useEffect(() => {
-    const targets = ["projets", "contact"].map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
-    const visible = new Set<Element>();
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => (e.isIntersecting ? visible.add(e.target) : visible.delete(e.target)));
-        setHidden(visible.size > 0);
-      },
-      // « visible » = la section occupe la bande centrale de l'écran (indépendant de sa hauteur)
-      { rootMargin: "-35% 0px -35% 0px" },
-    );
-    targets.forEach((t) => io.observe(t));
+    const target = document.getElementById("contact");
+    if (!target) return;
+    const io = new IntersectionObserver(([e]) => setOverContact(e.isIntersecting), { rootMargin: "-20% 0px -20% 0px" });
+    io.observe(target);
     return () => io.disconnect();
   }, []);
 
+  const wa = whatsappLink(`Bonjour ${settings.siteName}, je souhaite un devis.`);
+  const icon = (size: number) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d={WA_ICON} />
+    </svg>
+  );
+
   return (
-    <a
-      href={whatsappLink()}
-      target="_blank"
-      rel="noopener"
-      aria-label="Discuter sur WhatsApp"
-      className={`fixed right-4 bottom-4 z-40 grid h-12 w-12 place-items-center rounded-full border border-white/15 bg-ink text-white shadow-lg transition duration-300 hover:bg-ink-3 sm:right-6 sm:bottom-6 sm:h-14 sm:w-14 ${hidden || down ? "pointer-events-none translate-y-24 opacity-0" : ""}`}
-    >
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-        <path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.4-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 2.5 1 3 .8 3.6.7.6-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 2a10 10 0 00-8.6 15.1L2 22l5-1.3A10 10 0 1012 2z" />
-      </svg>
-    </a>
+    <>
+      {/* Mobile : barre d'actions */}
+      <div
+        className={`fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t border-ink/10 bg-paper/95 p-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] backdrop-blur-md transition duration-300 md:hidden ${
+          overContact ? "pointer-events-none translate-y-full" : ""
+        }`}
+      >
+        <a href={wa} target="_blank" rel="noopener" className="btn btn-primary h-12">
+          {icon(18)}
+          WhatsApp
+        </a>
+        <a href={`tel:+${contact.phoneIntl}`} className="btn h-12 border border-ink/20 text-ink">
+          <Icon name="phone" size={18} />
+          Appeler
+        </a>
+      </div>
+
+      {/* Desktop : bouton rond */}
+      <a
+        href={wa}
+        target="_blank"
+        rel="noopener"
+        aria-label="Discuter sur WhatsApp"
+        className={`fixed right-6 bottom-6 z-40 hidden size-14 place-items-center bg-ink text-paper transition duration-300 hover:bg-ink-3 md:grid ${
+          overContact || down ? "pointer-events-none translate-y-24 opacity-0" : ""
+        }`}
+      >
+        {icon(24)}
+      </a>
+    </>
   );
 }

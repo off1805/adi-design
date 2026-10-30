@@ -42,26 +42,26 @@ export function Header() {
   return (
     <header ref={ref} className="fixed inset-x-0 top-0 z-50 px-3 pt-3 sm:px-4 sm:pt-4">
       <div
-        className={`mx-auto flex max-w-[1300px] items-center justify-between rounded-2xl px-5 py-3 transition-all duration-500 sm:px-8 ${
+        className={`mx-auto flex max-w-[1300px] items-center justify-between px-5 py-3 transition-all duration-500 sm:px-8 ${
           scrolled ? "bg-paper/85 shadow-[0_10px_30px_-15px_rgba(0,0,0,.2)] backdrop-blur-xl" : "py-5"
         }`}
       >
         <a href="#top" aria-label={`${siteName}, accueil`} className={`flex items-center gap-3 text-sm font-semibold tracking-[0.2em] uppercase ${light ? "text-white" : "text-ink"}`}>
-          {/* Logo monochrome : blanc sur le hero, encre une fois la barre sur fond clair */}
-          <Image src="/images/logo.png" alt="" width={1076} height={820} priority className={`h-auto w-11 brightness-0 transition ${light ? "invert" : ""}`} />
+          {/* Logo monochrome, toujours en blanc (thème sombre) */}
+          <Image src="/images/logo.png" alt="" width={1076} height={820} priority className="h-auto w-11 brightness-0 invert" />
           <span className="hidden whitespace-nowrap sm:inline">{siteName}</span>
         </a>
 
-        <nav className="hidden items-center gap-1 rounded-full p-1 lg:flex">
+        <nav className="hidden items-center gap-1 p-1 lg:flex">
           {NAV.map(({ label, href }) => (
             <a
               key={href}
               href={href}
-              className={`rounded-full px-4 py-1.5 text-[13px] transition ${
+              className={`px-4 py-1.5 text-[13px] transition ${
                 active === href
                   ? light
-                    ? "bg-white text-ink"
-                    : "bg-ink text-white"
+                    ? "bg-white text-black"
+                    : "bg-ink text-paper"
                   : light
                     ? "text-white/80 hover:text-white"
                     : "text-ink/60 hover:text-ink"
@@ -83,7 +83,7 @@ export function Header() {
             onClick={() => setOpen(!open)}
             aria-label="Menu"
             aria-expanded={open}
-            className={`grid h-10 w-10 place-items-center rounded-full lg:hidden ${light ? "bg-white text-ink" : "bg-ink text-white"}`}
+            className={`grid h-10 w-10 place-items-center lg:hidden ${light ? "bg-white text-black" : "bg-ink text-paper"}`}
           >
             <span className="relative block h-2.5 w-4">
               <span className={`absolute left-0 h-px w-4 bg-current transition ${open ? "top-1 rotate-45" : "top-0"}`} />
@@ -93,7 +93,7 @@ export function Header() {
         </div>
       </div>
 
-      <div className={`mx-auto mt-2 max-w-[1300px] overflow-hidden rounded-2xl bg-paper transition-all duration-500 lg:hidden ${open ? "max-h-96" : "max-h-0"}`}>
+      <div className={`mx-auto mt-2 max-w-[1300px] overflow-hidden bg-paper transition-all duration-500 lg:hidden ${open ? "max-h-96" : "max-h-0"}`}>
         <ul className="p-5 text-lg font-medium tracking-[-0.02em]">
           {NAV.map(({ label, href }) => (
             <li key={href}>

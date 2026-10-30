@@ -1,7 +1,13 @@
 {
   "title": "Du mur brut à la pièce signature",
-  "aside": "Survolez ou faites glisser : même mur, même angle. Un exemple réel d’intervention ADI Design.",
+  "aside": "Le même mur, photographié avant et après notre intervention.",
   "before": "/images/mur-avant.jpg",
   "after": "/images/mur-apres.jpg",
-  "caption": "Chaque transformation est d’abord validée en 3D, avant le premier coup de truelle."
+  "interventions": [
+    "Crépissage et enduits",
+    "Habillage marbre",
+    "Staff et éclairage LED",
+    "Peinture et finitions"
+  ],
+  "duration": "12 jours"
 }

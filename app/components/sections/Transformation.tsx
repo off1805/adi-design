@@ -1,122 +1,116 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useContent } from "../../lib/ContentProvider";
-import { FINE_POINTER, gsap, MOTION_OK, useGSAP } from "../../lib/gsap";
 import { Icon } from "../ui/Icon";
 import { SectionHead } from "../ui/SectionHead";
 
-/** Avant / Après : l'image s'ouvre au scroll, le curseur balaie seul puis suit la souris ou le doigt. */
+const EASE = "ease-[cubic-bezier(.7,0,.2,1)]";
+
+/**
+ * Avant / Après en pile de tirages photo.
+ * L'« avant » est posé sur l'« après », légèrement de travers. Quand la section arrive à l'écran,
+ * il glisse et s'écarte dans le coin pour révéler l'« après », qui se redresse.
+ * Un clic sur la vignette remet l'« avant » sur le dessus (et inversement).
+ * Transitions CSS uniquement, coupées si l'utilisateur a demandé moins d'animations.
+ */
 export function Transformation() {
-  const ref = useRef<HTMLElement>(null);
-  const { title, aside, before, after, caption } = useContent().transformation;
-  const [pos, setPos] = useState(50);
-  // Dès que l'utilisateur prend la main, le balayage automatique s'arrête
+  const ref = useRef<HTMLDivElement>(null);
+  const { title, aside, before, after, interventions, duration } = useContent().transformation;
+  const [revealed, setRevealed] = useState(false);
   const touched = useRef(false);
-  const take = (v: number) => {
+
+  // Révélation automatique, une seule fois, quand la pile est bien visible
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    let timer: ReturnType<typeof setTimeout>;
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        timer = setTimeout(() => !touched.current && setRevealed(true), 500);
+        io.disconnect();
+      },
+      { threshold: 0.6 },
+    );
+    io.observe(el);
+    return () => {
+      io.disconnect();
+      clearTimeout(timer);
+    };
+  }, []);
+
+  const toggle = () => {
     touched.current = true;
-    setPos(Math.min(100, Math.max(0, v)));
+    setRevealed((v) => !v);
   };
 
-  useGSAP(
-    () => {
-      gsap.matchMedia().add(MOTION_OK, () => {
-        // Le cadre s'ouvre depuis le centre, la photo dézoome
-        gsap.fromTo(".tr-frame", { clipPath: "inset(12% 8% 12% 8%)" }, {
-          clipPath: "inset(0% 0% 0% 0%)",
-          ease: "none",
-          scrollTrigger: { trigger: ".tr-frame", start: "top bottom", end: "center center", scrub: true },
-        });
-        gsap.fromTo(".tr-frame img", { scale: 1.2 }, {
-          scale: 1,
-          ease: "none",
-          scrollTrigger: { trigger: ".tr-frame", start: "top bottom", end: "center center", scrub: true },
-        });
-
-        // Démonstration : le curseur révèle l'après, revient sur l'avant, puis se pose au milieu
-        const demo = { v: 50 };
-        gsap
-          .timeline({ scrollTrigger: { trigger: ".tr-frame", start: "top 55%", once: true } })
-          .to(demo, { v: 92, duration: 1, ease: "power2.inOut" })
-          .to(demo, { v: 8, duration: 1.4, ease: "power2.inOut" })
-          .to(demo, { v: 50, duration: 1, ease: "power3.out" })
-          .eventCallback("onUpdate", () => {
-            if (!touched.current) setPos(demo.v);
-          });
-      });
-    },
-    { scope: ref },
-  );
-
-  const follow = (e: React.PointerEvent<HTMLDivElement>) => {
-    // Souris : le curseur suit le survol. Tactile : il suit le doigt pendant le glissé.
-    if (e.pointerType === "mouse" && !window.matchMedia(FINE_POINTER).matches) return;
-    if (e.pointerType !== "mouse" && e.buttons === 0) return;
-    const r = e.currentTarget.getBoundingClientRect();
-    take(((e.clientX - r.left) / r.width) * 100);
-  };
+  const print =
+    "absolute inset-0 overflow-hidden border-[6px] border-white bg-white shadow-[0_1px_2px_rgba(0,0,0,.06),0_18px_40px_-20px_rgba(0,0,0,.35)]";
 
   return (
-    <section ref={ref} className="section-y">
-      <div className="container-site">
-        <SectionHead label="Avant / Après" aside={aside}>
-          {title}
-        </SectionHead>
+    <section id="avant-apres" className="section-y">
+      <div className="container-site grid items-center gap-14 lg:grid-cols-[1.25fr_1fr] lg:gap-20">
+        {/* Pile de tirages */}
+        <div ref={ref} className="relative mx-auto aspect-[4/3] w-[86%] sm:w-[80%] lg:w-[88%]">
+          {/* Après : dessous, se redresse quand l'avant s'écarte */}
+          <figure className={`${print} transition-transform duration-1000 ${EASE} motion-reduce:transition-none ${revealed ? "rotate-0" : "rotate-[3deg]"}`}>
+            <Image src={after} alt="Après intervention" fill className="object-cover" sizes="(min-width:1024px) 640px, 86vw" />
+            <figcaption className="absolute top-4 right-4 bg-white/85 px-3 py-1 text-[13px] font-medium text-black backdrop-blur-md">Après</figcaption>
+          </figure>
 
-        <div
-          onPointerMove={follow}
-          onPointerDown={follow}
-          className="tr-frame relative mt-12 aspect-square max-h-[62vh] w-full cursor-ew-resize touch-pan-y select-none overflow-hidden rounded-[4px] bg-ink sm:aspect-[2/1]"
-        >
-          <Image src={after} alt="Après intervention" fill className="object-cover" sizes="(min-width:1200px) 1200px, 100vw" />
-          <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - pos}% 0 0)` }}>
-            <Image src={before} alt="Avant intervention" fill className="object-cover grayscale-[35%]" sizes="(min-width:1200px) 1200px, 100vw" />
-          </div>
-
-          {/* Étiquettes : chacune s'efface quand son côté est presque masqué */}
-          <span
-            className="pointer-events-none absolute top-5 left-5 rounded-full bg-black/40 px-3.5 py-1.5 text-[13px] font-medium text-white backdrop-blur-md transition-opacity"
-            style={{ opacity: pos < 15 ? 0 : 1 }}
+          {/* Avant : dessus, glisse dans le coin inférieur gauche et devient une vignette cliquable */}
+          <button
+            onClick={toggle}
+            aria-pressed={!revealed}
+            aria-label={revealed ? "Remettre la photo avant sur le dessus" : "Écarter la photo avant pour voir l'après"}
+            className={`${print} z-10 origin-bottom-left cursor-pointer transition-transform duration-1000 ${EASE} motion-reduce:transition-none ${
+              revealed ? "-translate-x-[14%] translate-y-[22%] -rotate-[8deg] scale-[0.38]" : "-rotate-[2deg]"
+            }`}
           >
-            Avant
-          </span>
-          <span
-            className="pointer-events-none absolute top-5 right-5 rounded-full bg-white/85 px-3.5 py-1.5 text-[13px] font-medium text-ink backdrop-blur-md transition-opacity"
-            style={{ opacity: pos > 85 ? 0 : 1 }}
-          >
-            Après
-          </span>
-
-          <div className="pointer-events-none absolute inset-y-0" style={{ left: `${pos}%` }}>
-            <div className="absolute inset-y-0 -left-px w-0.5 bg-white shadow-[0_0_20px_rgba(0,0,0,.35)]" />
-            <div className="absolute top-1/2 -left-7 grid h-14 w-14 -translate-y-1/2 place-items-center rounded-full bg-white text-ink shadow-xl">
-              <Icon name="chevrons-h" size={20} />
-            </div>
-          </div>
-
-          {/* Accès clavier / lecteurs d'écran */}
-          <input
-            type="range"
-            min={0}
-            max={100}
-            value={Math.round(pos)}
-            onChange={(e) => take(Number(e.target.value))}
-            aria-label="Comparer avant et après"
-            className="pointer-events-none absolute inset-0 h-full w-full opacity-0"
-          />
-
-          <div className="pointer-events-none absolute right-5 bottom-5 rounded-full bg-black/40 px-3.5 py-1.5 text-[13px] text-white tabular-nums backdrop-blur-md">
-            {Math.round(100 - pos)}% transformé
-          </div>
+            <Image src={before} alt="Avant intervention" fill className="object-cover grayscale-[30%]" sizes="(min-width:1024px) 640px, 86vw" />
+            {/* Étiquette agrandie quand la photo est réduite, pour rester lisible sur la vignette */}
+            <span
+              className={`absolute top-4 left-4 flex items-center gap-1.5 bg-black/45 px-3 py-1 font-medium text-white backdrop-blur-md ${revealed ? "text-[30px]" : "text-[13px]"}`}
+            >
+              Avant
+              <Icon name="arrow-up-right" size={revealed ? 30 : 14} />
+            </span>
+          </button>
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
-          <p className="max-w-md text-[15px] leading-relaxed text-muted">{caption}</p>
-          <a href="#contact" className="btn btn-primary">
-            Transformer mon intérieur
-            <Icon name="arrow-up-right" />
-          </a>
+        {/* Texte : titre, une phrase, ce qui a été fait, un bouton */}
+        <div className="max-w-md">
+          <SectionHead label="Avant / Après">{title}</SectionHead>
+          <p className="mt-5 text-[15px] leading-relaxed text-muted">{aside}</p>
+
+          {(interventions.length > 0 || duration) && (
+            <dl className="mt-8 grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 border-t border-ink/10 pt-6 text-[15px]">
+              {interventions.length > 0 && (
+                <>
+                  <dt className="eyebrow pt-1 text-muted">Travaux</dt>
+                  <dd>{interventions.join(" · ")}</dd>
+                </>
+              )}
+              {duration && (
+                <>
+                  <dt className="eyebrow pt-1 text-muted">Délai</dt>
+                  <dd className="text-wood">{duration}</dd>
+                </>
+              )}
+            </dl>
+          )}
+
+          <div className="mt-8 flex flex-wrap items-center gap-5">
+            <a href="#contact" className="btn btn-primary">
+              Transformer mon intérieur
+              <Icon name="arrow-up-right" />
+            </a>
+            <button onClick={toggle} className="text-sm font-medium underline underline-offset-4 transition-colors hover:text-wood">
+              {revealed ? "Revoir l’avant" : "Voir l’après"}
+            </button>
+          </div>
         </div>
       </div>
     </section>

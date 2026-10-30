@@ -17,8 +17,8 @@ export function Faq() {
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-28">
             <SectionHead label="Questions fréquentes">On vous répond</SectionHead>
-            <div className="mt-10 rounded-[4px] bg-sand p-7">
-              <p className="text-lg leading-snug tracking-[-0.02em]">Une autre question ?</p>
+            <div className="mt-10 bg-sand p-7">
+              <p className="font-title text-2xl leading-snug">Une autre question ?</p>
               <p className="mt-2 text-[15px] leading-relaxed text-muted">Écrivez-nous sur WhatsApp, nous répondons rapidement, {contact.hours.toLowerCase()}.</p>
               <a
                 href={whatsappLink()}
@@ -43,10 +43,10 @@ export function Faq() {
                   aria-expanded={isOpen}
                   className="group flex w-full items-center gap-5 py-6 text-left"
                 >
-                  <span className="w-8 shrink-0 text-lg font-light text-ink/45 tabular-nums">{String(i + 1).padStart(2, "0")}</span>
-                  <span className={`flex-1 text-lg tracking-[-0.02em] transition-colors sm:text-2xl ${isOpen ? "text-ink" : "text-ink/75 group-hover:text-ink"}`}>{q}</span>
+                  <span className="w-8 shrink-0 text-lg font-light text-ink/55 tabular-nums">{String(i + 1).padStart(2, "0")}</span>
+                  <span className={`font-title flex-1 text-xl tracking-[-0.01em] transition-colors sm:text-[1.75rem] ${isOpen ? "text-ink" : "text-ink/75 group-hover:text-ink"}`}>{q}</span>
                   <span
-                    className={`grid h-10 w-10 shrink-0 place-items-center rounded-full border transition duration-300 ${
+                    className={`grid h-10 w-10 shrink-0 place-items-center border transition duration-300 ${
                       isOpen ? "rotate-45 border-ink text-ink" : "border-ink/20 text-ink/70 group-hover:border-ink group-hover:text-ink"
                     }`}
                   >

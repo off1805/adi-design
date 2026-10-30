@@ -3,110 +3,94 @@
 import { useState, type FormEvent } from "react";
 import { useContent, useWhatsapp } from "../../lib/ContentProvider";
 import { Icon } from "../ui/Icon";
-import { Reveal } from "../ui/Reveal";
-import { SplitReveal } from "../ui/SplitReveal";
+import { SectionHead } from "../ui/SectionHead";
 
-const PROJECT_TYPES = ["Aménagement complet", "Cuisine sur mesure", "Meuble TV / Mur décoratif", "Dressing / Placards", "Staff & plafonds", "Carrelage / Peinture", "Conception 3D"];
-
-/** Contact sur fond sombre : coordonnées à gauche, formulaire (→ WhatsApp) à droite. */
+/**
+ * Contact, piloté par WhatsApp : action principale à gauche (bouton + coordonnées),
+ * formulaire court à droite (3 champs) qui ouvre WhatsApp avec le message prérempli.
+ */
 export function Contact() {
-  const { contact: CONTACT, settings } = useContent();
+  const { contact, settings, solutions } = useContent();
   const whatsappLink = useWhatsapp();
   const [sent, setSent] = useState(false);
+  const types = [...solutions.items.map((s) => s.title), "Autre projet"];
 
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const d = new FormData(e.currentTarget);
-    const msg = `Bonjour ${settings.siteName} 👋\n\nNom : ${d.get("name")}\nTéléphone : ${d.get("phone")}\nProjet : ${d.get("type")}\n\n${d.get("message")}`;
+    const msg = `Bonjour ${settings.siteName},\n\nJe m'appelle ${d.get("name")} et je souhaite un devis pour : ${d.get("type")}.\nMon numéro WhatsApp : ${d.get("phone")}`;
     window.open(whatsappLink(msg), "_blank");
     setSent(true);
   }
 
-  const field = "w-full border-b border-white/25 bg-transparent py-4 text-[15px] text-white outline-none transition placeholder:text-white/60 focus:border-white";
-  const label = "text-sm text-white/65";
+  const field =
+    "w-full border border-white/15 bg-white/[0.04] px-4 py-3.5 text-[15px] text-white outline-none transition placeholder:text-white/50 focus:border-white/60";
 
   return (
-    <section id="contact" className="bg-ink-2 pt-20 pb-16 text-white lg:pt-28">
-      <div className="container-site grid gap-14 lg:grid-cols-2 lg:gap-20">
+    <section id="contact" className="section-y bg-ink-2 text-white">
+      <div className="container-site grid gap-12 lg:grid-cols-2 lg:gap-20">
         <div>
-          <p className="flex items-center gap-3 text-sm font-medium text-white/70">
-            <span className="h-px w-6 bg-wood" />
-            Consultation gratuite
-          </p>
-          <SplitReveal className="mt-4 text-[clamp(2.5rem,5.5vw,4.5rem)] leading-[0.98] font-medium tracking-[-0.045em]">
+          <SectionHead dark label="Consultation gratuite">
             Parlons de votre projet
-          </SplitReveal>
-          <p className="mt-6 max-w-md text-[15px] leading-relaxed text-white/70">
-            Décrivez votre espace en quelques mots : nous revenons vers vous pour fixer une visite, sans engagement.
-          </p>
-          <dl className="mt-12 grid gap-8 border-t border-white/10 pt-8 sm:grid-cols-2">
+          </SectionHead>
+          <p className="mt-5 max-w-md text-[15px] leading-relaxed text-white/70">Le plus simple : écrivez-nous sur WhatsApp. Nous répondons rapidement.</p>
+
+          <a href={whatsappLink(`Bonjour ${settings.siteName}, je souhaite un devis.`)} target="_blank" rel="noopener" className="btn btn-light mt-8">
+            Discuter sur WhatsApp
+            <Icon name="arrow-up-right" />
+          </a>
+
+          <dl className="mt-12 grid gap-6 border-t border-white/10 pt-8 text-[15px] sm:grid-cols-3">
             <div>
-              <dt className={label}>Téléphone & WhatsApp</dt>
-              <dd className="mt-2 text-2xl tracking-[-0.02em] whitespace-nowrap">
-                <a href={`tel:+${CONTACT.phoneIntl}`} className="transition-colors hover:text-white/70">
-                  {CONTACT.phoneDisplay}
+              <dt className="eyebrow text-white/55">Téléphone</dt>
+              <dd className="mt-2">
+                <a href={`tel:+${contact.phoneIntl}`} className="whitespace-nowrap transition-colors hover:text-white/70">
+                  {contact.phoneDisplay}
                 </a>
               </dd>
             </div>
             <div>
-              <dt className={label}>Horaires</dt>
-              <dd className="mt-2 text-[15px] text-white/85">{CONTACT.hours}</dd>
+              <dt className="eyebrow text-white/55">Horaires</dt>
+              <dd className="mt-2 text-white/85">{contact.hours}</dd>
             </div>
-            <div className="sm:col-span-2">
-              <dt className={label}>Adresse</dt>
-              <dd className="mt-2 text-[15px] leading-relaxed text-white/85">
-                {CONTACT.address}
-                <br />
-                {CONTACT.city}, Cameroun
-                {CONTACT.mapsUrl && (
-                  <a href={CONTACT.mapsUrl} target="_blank" rel="noopener" className="mt-2 flex items-center gap-1.5 text-white underline underline-offset-4 transition-colors hover:text-white/70">
-                    Voir sur la carte
-                    <Icon name="arrow-up-right" size={14} />
+            <div>
+              <dt className="eyebrow text-white/55">Adresse</dt>
+              <dd className="mt-2 text-white/85">
+                {contact.mapsUrl ? (
+                  <a href={contact.mapsUrl} target="_blank" rel="noopener" className="underline underline-offset-4 transition-colors hover:text-white/70">
+                    {contact.address}, {contact.city}
                   </a>
+                ) : (
+                  `${contact.address}, ${contact.city}`
                 )}
               </dd>
             </div>
           </dl>
         </div>
 
-        <Reveal delay={150} className="w-full max-w-lg lg:justify-self-end">
-          <form onSubmit={onSubmit} className="grid content-start gap-2">
-            <div className="grid gap-x-8 sm:grid-cols-2">
-              <input name="name" required placeholder="Votre nom" aria-label="Votre nom" className={field} />
-              <input name="phone" required type="tel" placeholder="Téléphone / WhatsApp" aria-label="Téléphone ou WhatsApp" className={field} />
-            </div>
-            {/* Flèche explicite : sans elle, le menu ressemble à un champ déjà rempli */}
-            <div className="relative">
-              <select name="type" defaultValue={PROJECT_TYPES[0]} aria-label="Type de projet" className={`${field} cursor-pointer appearance-none pr-8`}>
-                {PROJECT_TYPES.map((o) => (
-                  <option key={o} className="text-ink">
-                    {o}
-                  </option>
-                ))}
-              </select>
-              <Icon name="chevron-down" className="pointer-events-none absolute top-1/2 right-0 -translate-y-1/2 text-white/70" />
-            </div>
-            <textarea name="message" rows={4} placeholder="Parlez-nous de votre espace…" aria-label="Votre message" className={`${field} resize-none`} />
-            <button className="btn btn-light mt-8 w-full">
-              Envoyer ma demande sur WhatsApp
-              <Icon name="arrow-up-right" />
-            </button>
-            <p className="mt-4 text-center text-sm text-white/70">
-              Pas de WhatsApp ?{" "}
-              <a href={`tel:+${CONTACT.phoneIntl}`} className="whitespace-nowrap text-white underline underline-offset-4 transition-colors hover:text-white/70">
-                Appelez le {CONTACT.phoneDisplay}
-              </a>
-            </p>
-            {sent ? (
-              <p role="status" className="mt-3 rounded-[4px] border border-white/15 bg-white/5 px-4 py-3 text-sm text-white">
-                Merci ! WhatsApp s’est ouvert avec votre message pré-rempli : il ne reste qu’à appuyer sur « Envoyer ». Si
-                rien ne s’est ouvert, appelez-nous directement.
-              </p>
-            ) : (
-              <p className="mt-2 text-center text-[13px] text-white/60">Réponse rapide. Consultation gratuite et sans engagement</p>
-            )}
-          </form>
-        </Reveal>
+        <form onSubmit={onSubmit} className="grid content-start gap-3 bg-white/[0.04] p-6 sm:p-8">
+          <p className="font-title text-xl">Recevoir mon devis</p>
+          <p className="mb-3 text-sm text-white/60">Trois informations, et WhatsApp s’ouvre avec votre message prêt à envoyer.</p>
+          <input name="name" required autoComplete="name" placeholder="Votre nom" aria-label="Votre nom" className={field} />
+          <input name="phone" required type="tel" autoComplete="tel" placeholder="Votre numéro WhatsApp" aria-label="Votre numéro WhatsApp" className={field} />
+          <div className="relative">
+            <select name="type" defaultValue={types[0]} aria-label="Type de projet" className={`${field} cursor-pointer appearance-none pr-10`}>
+              {types.map((t) => (
+                <option key={t} className="text-ink">
+                  {t}
+                </option>
+              ))}
+            </select>
+            <Icon name="chevron-down" className="pointer-events-none absolute top-1/2 right-4 -translate-y-1/2 text-white/60" />
+          </div>
+          <button className="btn btn-light mt-3 w-full">
+            Envoyer sur WhatsApp
+            <Icon name="arrow-up-right" />
+          </button>
+          <p role="status" className="min-h-5 text-center text-[13px] text-white/60">
+            {sent ? "WhatsApp s’est ouvert : il ne reste qu’à appuyer sur « Envoyer »." : "Gratuit et sans engagement."}
+          </p>
+        </form>
       </div>
     </section>
   );

@@ -3,224 +3,143 @@
 import Image from "next/image";
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { useContent } from "../../lib/ContentProvider";
+import { Reveal } from "../ui/Reveal";
 import { Icon } from "../ui/Icon";
 import { SectionHead } from "../ui/SectionHead";
 
-const pad = (i: number) => String(i + 1).padStart(2, "0");
+const EASE = "ease-[cubic-bezier(.7,0,.2,1)]";
 
 /**
- * Services en « liste + aperçu » : sur grand écran, la liste des titres à gauche pilote
- * un panneau d'aperçu à droite (photos, description, prestations). Sur mobile,
- * cartes complètes en défilement horizontal avec pagination.
+ * Services en palette de matières : une lamelle par service, la photo de la matière en fond.
+ * Desktop : lamelles verticales côte à côte ; celle survolée (ou choisie au clic / clavier)
+ * s'ouvre comme un tiroir et dévoile le titre, une phrase et un lien vers le devis.
+ * Mobile : mêmes lamelles empilées, celle touchée se déplie en hauteur.
  */
 export function Services() {
-  const { title, items: SERVICES } = useContent().solutions;
-  const n = SERVICES.length;
+  const { title, items } = useContent().solutions;
   const [active, setActive] = useState(0);
-  const [shot, setShot] = useState(0);
-  const [slide, setSlide] = useState(0);
-  const hoverTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const tabs = useRef<(HTMLButtonElement | null)[]>([]);
-  const track = useRef<HTMLUListElement>(null);
-  const s = SERVICES[Math.min(active, n - 1)];
+  const n = items.length;
 
-  const pick = (i: number) => {
-    clearTimeout(hoverTimer.current);
+  const open = (i: number) => {
+    clearTimeout(timer.current);
     setActive(i);
-    setShot(0);
   };
-
-  // Intention de survol : on ne change qu'après un court arrêt, pour qu'un trajet
-  // en diagonale de la liste vers l'aperçu ne bascule pas sur un autre service
+  // Intention de survol : on n'ouvre qu'après un vrai arrêt, pour que traverser les lamelles ne vole pas l'ouverture
   const hover = (i: number) => {
-    clearTimeout(hoverTimer.current);
-    hoverTimer.current = setTimeout(() => pick(i), 140);
+    if (i === active) return;
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => open(i), 400);
   };
-  useEffect(() => () => clearTimeout(hoverTimer.current), []);
+  useEffect(() => () => clearTimeout(timer.current), []);
 
-  // Clavier : flèches haut/bas, Début/Fin (motif « tabs » ARIA)
+  // Clavier : flèches, Début/Fin
   const onKey = (e: KeyboardEvent) => {
-    const next = { ArrowDown: active + 1, ArrowUp: active - 1, Home: 0, End: n - 1 }[e.key];
+    const next = { ArrowRight: active + 1, ArrowDown: active + 1, ArrowLeft: active - 1, ArrowUp: active - 1, Home: 0, End: n - 1 }[e.key];
     if (next === undefined) return;
     e.preventDefault();
     const i = (next + n) % n;
-    pick(i);
+    open(i);
     tabs.current[i]?.focus();
   };
 
-  // Mobile : carte la plus centrée = carte active (pagination)
-  const onTrackScroll = () => {
-    const el = track.current;
-    if (!el) return;
-    const card = el.children[0] as HTMLElement | undefined;
-    if (card) setSlide(Math.round(el.scrollLeft / (card.offsetWidth + 12)));
-  };
-  const goSlide = (i: number) => {
-    const card = track.current?.children[i] as HTMLElement | undefined;
-    card?.scrollIntoView({ behavior: "smooth", inline: "start", block: "nearest" });
-  };
-
-  if (!s) return null;
+  if (!n) return null;
 
   return (
-    <section id="services" className="section-y bg-beige">
+    <section id="services" className="section-y bg-cream">
       <div className="container-site">
-        {/* Mobile : titre seul ; grand écran : le titre passe en tête de la colonne de gauche */}
-        <div className="lg:hidden">
-          <SectionHead label="Nos services">{title}</SectionHead>
-        </div>
+        <SectionHead label="Nos services">{title}</SectionHead>
 
-        {/* Grand écran : titre + liste à gauche, aperçu aligné en haut à droite */}
-        <div className="hidden items-start gap-12 lg:grid lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)]" onMouseLeave={() => clearTimeout(hoverTimer.current)}>
-          <div className="flex flex-col">
-            <SectionHead label="Nos services">{title}</SectionHead>
-            <div role="tablist" aria-label="Nos services" aria-orientation="vertical" onKeyDown={onKey} className="mt-10 border-t border-ink/10">
-              {SERVICES.map((x, i) => {
-                const on = i === active;
-                return (
-                  <button
-                    key={x.title}
-                    ref={(el) => {
-                      tabs.current[i] = el;
-                    }}
-                    id={`svc-tab-${i}`}
-                    role="tab"
-                    aria-selected={on}
-                    aria-controls="svc-panel"
-                    tabIndex={on ? 0 : -1}
-                    onMouseEnter={() => hover(i)}
-                    onClick={() => pick(i)}
-                    className="group relative flex w-full items-center gap-5 border-b border-ink/10 py-5 pl-5 text-left outline-none focus-visible:bg-paper/60"
-                  >
-                    {/* Barre verticale qui marque le service actif */}
-                    <span className={`absolute top-1/2 left-0 w-[3px] -translate-y-1/2 rounded-full bg-ink transition-all duration-500 ${on ? "h-8 opacity-100" : "h-0 opacity-0"}`} />
-                    <span className={`w-8 shrink-0 text-lg tabular-nums transition-colors ${on ? "font-medium text-ink" : "font-light text-ink/45"}`}>{pad(i)}</span>
-                    <span
-                      className={`flex-1 text-[clamp(1.5rem,2.3vw,2rem)] leading-tight tracking-[-0.03em] transition duration-300 ${
-                        on ? "translate-x-1.5 text-ink" : "text-ink/55 group-hover:text-ink/80"
-                      }`}
-                    >
-                      {x.title}
-                    </span>
-                    <Icon name="arrow-right" className={`transition duration-300 ${on ? "translate-x-0 opacity-100" : "-translate-x-2 opacity-0"}`} />
-                  </button>
-                );
-              })}
-            </div>
-
-            <p className="mt-auto pt-8 text-[15px] leading-relaxed text-muted">
-              Un projet qui combine plusieurs services ?{" "}
-              <a href="#contact" className="text-ink underline underline-offset-4 transition-colors hover:text-wood">
-                On s’occupe de tout
-              </a>
-              .
-            </p>
-          </div>
-
-          <div id="svc-panel" role="tabpanel" aria-labelledby={`svc-tab-${active}`} className="sticky top-24">
-            <div className="flex flex-col rounded-[4px] bg-paper p-3">
-              {/* Photo principale : seules les photos du service actif sont rendues */}
-              <div key={active} className="relative aspect-[16/10] animate-[fp-in_0.5s_ease-out] overflow-hidden rounded-[4px] bg-stone">
-                {s.images.map((src, k) => (
-                  <Image
-                    key={k}
-                    src={src}
-                    alt={`${s.title}, réalisation ${k + 1}`}
-                    fill
-                    className={`object-cover transition duration-700 ease-out ${k === shot ? "scale-100 opacity-100" : "scale-[1.04] opacity-0"}`}
-                    sizes="(min-width:1200px) 680px, 58vw"
-                  />
-                ))}
-                <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/50 to-transparent" />
-                <span className="absolute top-4 left-4 rounded-full bg-black/35 px-3 py-1 text-[13px] text-white tabular-nums backdrop-blur-md">
-                  {pad(active)} / {pad(n - 1)}
-                </span>
-                {/* Vignettes posées sur la photo */}
-                <div className="absolute right-4 bottom-4 flex gap-2">
-                  {s.images.map((src, k) => (
-                    <button
-                      key={k}
-                      onClick={() => setShot(k)}
-                      onMouseEnter={() => setShot(k)}
-                      aria-label={`Voir la photo ${k + 1} sur ${s.images.length}`}
-                      aria-pressed={k === shot}
-                      className={`relative h-11 w-16 overflow-hidden rounded-[4px] ring-offset-2 ring-offset-black/0 transition ${
-                        k === shot ? "ring-2 ring-white" : "opacity-60 hover:opacity-100"
-                      }`}
-                    >
-                      <Image src={src} alt="" fill className="object-cover" sizes="64px" />
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div key={`t-${active}`} className="flex animate-[fp-in_0.5s_ease-out] flex-col gap-5 p-5">
-                <div>
-                  <h3 className="text-2xl tracking-[-0.03em]">{s.title}</h3>
-                  <p className="mt-2 max-w-lg text-[15px] leading-relaxed text-muted">{s.text}</p>
-                </div>
-                <div className="flex flex-wrap items-end justify-between gap-5">
-                  <ul className="flex max-w-md flex-wrap gap-2">
-                    {s.items.map((it) => (
-                      <li key={it} className="rounded-full border border-ink/15 px-3 py-1 text-[13px] text-ink/75">
-                        {it}
-                      </li>
-                    ))}
-                  </ul>
-                  <a href="#contact" className="btn btn-sm btn-primary">
-                    Demander un devis
-                    <Icon name="arrow-up-right" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile / tablette : cartes en défilement horizontal */}
-        <ul
-          ref={track}
-          onScroll={onTrackScroll}
-          className="-mx-5 mt-10 flex snap-x snap-mandatory scroll-px-5 gap-3 overflow-x-auto px-5 pb-2 [scrollbar-width:none] sm:-mx-10 sm:scroll-px-10 sm:px-10 lg:hidden"
+        <Reveal>
+        <div
+          role="tablist"
+          aria-label="Nos services"
+          onKeyDown={onKey}
+          onMouseLeave={() => clearTimeout(timer.current)}
+          className="mt-12 flex flex-col gap-2 lg:h-[min(620px,74vh)] lg:flex-row"
         >
-          {SERVICES.map((x, i) => (
-            <li key={x.title} className="flex w-[82vw] max-w-sm shrink-0 snap-start flex-col rounded-[4px] bg-paper p-3">
-              <div className="relative aspect-[16/10] overflow-hidden rounded-[4px] bg-stone">
-                <Image src={x.images[0]} alt={`${x.title}, réalisation`} fill className="object-cover" sizes="(min-width:640px) 384px, 82vw" />
-              </div>
-              <div className="flex flex-1 flex-col p-3 pt-5">
-                <span className="text-sm font-light text-wood tabular-nums">{pad(i)}</span>
-                <h3 className="mt-1 text-2xl tracking-[-0.03em]">{x.title}</h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-muted">{x.text}</p>
-                <ul className="mt-4 flex flex-wrap gap-1.5">
-                  {x.items.map((it) => (
-                    <li key={it} className="rounded-full border border-ink/15 px-2.5 py-1 text-xs text-ink/75">
-                      {it}
-                    </li>
-                  ))}
-                </ul>
-                <div className="mt-auto pt-6">
-                  <a href="#contact" className="btn btn-sm btn-secondary">
+          {items.map((s, i) => {
+            const on = i === active;
+            const src = s.image;
+            return (
+              <div
+                key={i}
+                onMouseEnter={() => hover(i)}
+                className={`group relative min-h-[76px] overflow-hidden bg-cream text-white transition-[flex-grow,min-height] duration-700 ${EASE} motion-reduce:transition-none lg:min-h-0 lg:min-w-0 lg:basis-0 ${
+                  on ? "min-h-[480px] grow-[8]" : "grow"
+                }`}
+              >
+                {/* Matière en fond */}
+                {src && (
+                  <Image
+                    src={src}
+                    alt=""
+                    fill
+                    className={`object-cover transition duration-700 ${EASE} ${on ? "scale-100" : "scale-110 grayscale-[60%] group-hover:scale-105 group-hover:grayscale-0"}`}
+                    sizes="(min-width:1024px) 70vw, 100vw"
+                  />
+                )}
+                <div
+                  className={`absolute inset-0 transition duration-700 ${
+                    on ? "bg-gradient-to-t from-black/85 via-black/30 to-black/10" : "bg-black/70 group-hover:bg-black/50"
+                  }`}
+                />
+
+                {/* Lamelle ouverte : cadre doré pour garder le repère */}
+                <span
+                  aria-hidden
+                  className={`pointer-events-none absolute inset-0 z-30 border border-gold/70 transition-opacity duration-500 ${on ? "opacity-100" : "opacity-0"}`}
+                />
+
+                {/* Lamelle fermée : « + » en haut, titre à la verticale, filet doré */}
+                <button
+                  ref={(el) => {
+                    tabs.current[i] = el;
+                  }}
+                  role="tab"
+                  aria-selected={on}
+                  aria-controls={`svc-${i}`}
+                  tabIndex={on ? 0 : -1}
+                  onClick={() => open(i)}
+                  className={`absolute inset-0 z-10 text-left ${on ? "pointer-events-none" : ""}`}
+                >
+                  <span className={`transition-opacity duration-300 ${on ? "opacity-0" : "opacity-100 delay-200"}`}>
+                    <span className="absolute top-5 grid size-9 place-items-center border border-white/30 max-lg:right-5 lg:left-1/2 lg:-translate-x-1/2">
+                      <Icon name="plus" size={16} />
+                    </span>
+                    <span className="absolute bottom-6 flex items-center gap-3 max-lg:top-1/2 max-lg:bottom-auto max-lg:left-5 max-lg:-translate-y-1/2 lg:left-1/2 lg:-translate-x-1/2 lg:[writing-mode:vertical-rl] lg:rotate-180">
+                      <span className="h-px w-6 bg-brass lg:h-6 lg:w-px" />
+                      <span className="text-xl font-medium tracking-[-0.02em] whitespace-nowrap">{s.title}</span>
+                    </span>
+                  </span>
+                </button>
+
+                {/* Lamelle ouverte : titre, une phrase, un lien */}
+                <div
+                  id={`svc-${i}`}
+                  role="tabpanel"
+                  aria-hidden={!on}
+                  className={`absolute inset-x-0 bottom-0 z-20 p-6 transition duration-500 sm:p-8 lg:p-10 ${
+                    on ? "translate-y-0 opacity-100 delay-300" : "pointer-events-none translate-y-6 opacity-0"
+                  }`}
+                >
+                  <h3 className="font-title text-[clamp(1.9rem,3vw,2.75rem)] leading-[1.05]">{s.title}</h3>
+                  <p className="mt-3 line-clamp-2 max-w-md text-[15px] leading-relaxed text-white/80">{s.text}</p>
+                  <a
+                    href="#contact"
+                    tabIndex={on ? 0 : -1}
+                    className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-white underline underline-offset-4 transition-colors hover:text-white/70"
+                  >
                     Demander un devis
-                    <Icon name="arrow-up-right" />
+                    <Icon name="arrow-up-right" size={14} />
                   </a>
                 </div>
               </div>
-            </li>
-          ))}
-        </ul>
-        <div className="mt-5 flex items-center justify-between lg:hidden">
-          <div className="flex items-center gap-1.5" role="tablist" aria-label="Choisir un service">
-            {SERVICES.map((x, i) => (
-              <button key={x.title} role="tab" aria-selected={i === slide} aria-label={x.title} onClick={() => goSlide(i)} className="grid h-8 place-items-center">
-                <span className={`block h-1.5 rounded-full transition-all ${i === slide ? "w-6 bg-ink" : "w-1.5 bg-ink/25"}`} />
-              </button>
-            ))}
-          </div>
-          <span className="text-[13px] text-muted tabular-nums">
-            {pad(slide)} / {pad(n - 1)}
-          </span>
+            );
+          })}
         </div>
+        </Reveal>
       </div>
     </section>
   );

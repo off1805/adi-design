@@ -50,6 +50,19 @@ export default config({
           validation: { isRequired: true, pattern: { regex: /^\d{8,15}$/, message: "Chiffres uniquement" } },
         }),
         hours: text("Heures d'ouverture (affichées)"),
+        openDays: fields.multiselect({
+          label: "Jours d'ouverture (pour Google)",
+          options: [
+            { label: "Lundi", value: "Monday" },
+            { label: "Mardi", value: "Tuesday" },
+            { label: "Mercredi", value: "Wednesday" },
+            { label: "Jeudi", value: "Thursday" },
+            { label: "Vendredi", value: "Friday" },
+            { label: "Samedi", value: "Saturday" },
+            { label: "Dimanche", value: "Sunday" },
+          ],
+          defaultValue: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+        }),
         opens: fields.text({ label: "Ouverture (HH:MM, pour Google)", defaultValue: "08:00" }),
         closes: fields.text({ label: "Fermeture (HH:MM, pour Google)", defaultValue: "18:00" }),
         address: text("Adresse / quartier"),
@@ -79,8 +92,9 @@ export default config({
       format: json,
       schema: {
         image: image("Image de fond"),
+        eyebrow: fields.text({ label: "Sur-titre (ex. : Intérieurs · Yaoundé)" }),
         subtitle: text("Sous-titre", true),
-        primaryCta: text("Bouton principal"),
+        primaryCta: text("Bouton principal (ouvre WhatsApp)"),
         secondaryCta: text("Bouton secondaire"),
       },
     }),
@@ -118,7 +132,7 @@ export default config({
             image: image("Photo"),
             title: text("Titre"),
             place: text("Lieu"),
-            tags: fields.array(fields.text({ label: "Tag" }), { label: "Tags", itemLabel: (p) => p.value }),
+            tags: fields.array(fields.text({ label: "Tag" }), { label: "Tags (les 2 premiers sont affichés sur la photo)", itemLabel: (p) => p.value }),
             text: text("Description", true),
           }),
           { label: "Projets (dans l'ordre d'affichage)", itemLabel: (p) => p.fields.title.value },
@@ -135,9 +149,8 @@ export default config({
         items: fields.array(
           fields.object({
             title: text("Nom du service"),
-            text: text("Description", true),
-            items: fields.array(fields.text({ label: "Prestation" }), { label: "Prestations", itemLabel: (p) => p.value }),
-            images: fields.array(image("Photo"), { label: "Photos", validation: { length: { min: 1 } } }),
+            text: fields.text({ label: "Description (2 lignes maximum à l'écran)", multiline: true, validation: { isRequired: true, length: { max: 160 } } }),
+            image: image("Photo de la matière"),
           }),
           { label: "Services", itemLabel: (p) => p.fields.title.value },
         ),
@@ -150,10 +163,14 @@ export default config({
       format: json,
       schema: {
         title: text("Titre"),
-        aside: text("Texte à droite du titre", true),
+        aside: text("Phrase sous le titre", true),
         before: image("Photo AVANT"),
         after: image("Photo APRÈS"),
-        caption: text("Texte sous l'image", true),
+        interventions: fields.array(fields.text({ label: "Intervention" }), {
+          label: "Interventions réalisées",
+          itemLabel: (p) => p.value,
+        }),
+        duration: fields.text({ label: "Délai (ex. : 12 jours)" }),
       },
     }),
 

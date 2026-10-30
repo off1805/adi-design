@@ -17,10 +17,10 @@ export function SectionHead({
   return (
     <div className={`flex flex-col gap-5 ${center ? "items-center text-center" : "lg:flex-row lg:items-end lg:justify-between lg:gap-16"}`}>
       <div className="max-w-3xl">
-        <p className={`flex items-center gap-3 text-sm font-medium ${center ? "justify-center" : ""} ${dark ? "text-white/70" : "text-muted"}`}>
+        <p className={`eyebrow flex items-center gap-3 ${center ? "justify-center" : ""} ${dark ? "text-gold" : "text-muted"}`}>
           {label}
         </p>
-        <h2 className="mt-4 text-[clamp(2rem,4.2vw,3.5rem)] leading-[1.02] font-medium tracking-[-0.04em] text-balance">
+        <h2 className="font-title mt-4 text-[clamp(2.25rem,1.4rem+3.6vw,4rem)] leading-[1.08] tracking-[-0.015em] text-balance">
           {children}
         </h2>
       </div>

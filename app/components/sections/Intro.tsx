@@ -1,13 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
-import { gsap, MOTION_OK, useGSAP } from "../../lib/gsap";
 import { useContent } from "../../lib/ContentProvider";
 import { Counter } from "../ui/Counter";
 import { Icon, type IconName } from "../ui/Icon";
 import { Reveal } from "../ui/Reveal";
-import { SplitReveal } from "../ui/SplitReveal";
 
 const PERKS: { icon: IconName; l: string }[] = [
   { icon: "cube", l: "Conception\n3D offerte" },
@@ -20,56 +17,31 @@ const FAN = ["left-0 top-8 -rotate-6", "left-[28%] top-3 rotate-3 z-10", "left-[
 
 /* Section « À propos » : pastille + grand titre, trio de cartes, chiffres clés */
 export function Intro() {
-  const ref = useRef<HTMLElement>(null);
   const { intro, settings } = useContent();
-  useGSAP(
-    () => {
-      gsap.matchMedia().add(MOTION_OK, () => {
-        // Photo du salon : zoom arrière + parallaxe douce
-        gsap.fromTo(".intro-photo img", { scale: 1.3, yPercent: -6 }, {
-          scale: 1.05,
-          yPercent: 6,
-          ease: "none",
-          scrollTrigger: { trigger: ".intro-photo", start: "top bottom", end: "bottom top", scrub: true },
-        });
-        // Les trois photos partent empilées puis s'ouvrent en éventail
-        gsap.from(".intro-fan > div", {
-          left: "28%",
-          top: 12,
-          rotation: 0,
-          duration: 1.2,
-          stagger: 0.08,
-          ease: "back.out(1.6)",
-          scrollTrigger: { trigger: ".intro-fan", start: "top 85%", once: true },
-        });
-      });
-    },
-    { scope: ref },
-  );
 
   return (
-    <section ref={ref} id="studio" className="container-site section-y pb-12! lg:pb-14!">
+    <section id="studio" className="container-site section-y pb-12! lg:pb-14!">
       {/* En-tête : pastille à gauche, grande phrase à droite */}
       <div className="grid gap-6 lg:grid-cols-12">
         <Reveal className="lg:col-span-3">
-          <p className="flex items-center gap-3 text-sm font-medium text-muted">
-            <span className="h-px w-6 bg-wood" />
+          <p className="eyebrow flex items-center gap-3 text-muted">
+            <span className="h-px w-6 bg-brass" />
             Le cabinet
           </p>
         </Reveal>
         <div className="lg:col-span-9">
-          <SplitReveal className="text-[clamp(1.75rem,3.6vw,3.25rem)] leading-[1.1] font-medium tracking-[-0.03em]">
-            {intro.title}{" "}
+          <Reveal><h2 className="font-title text-[clamp(2rem,1.3rem+2.6vw,3.25rem)] leading-[1.1] tracking-[-0.01em]">
+            {intro.title}{""}
             <span className="text-muted">{intro.titleMuted}</span>
-          </SplitReveal>
+          </h2></Reveal>
         </div>
       </div>
 
       {/* Trio de cartes */}
       <div className="mt-14 grid gap-4 md:grid-cols-3">
         <Reveal className="h-full">
-          <article className="flex h-full flex-col rounded-[4px] bg-cream p-7">
-            <span className="grid size-10 place-items-center rounded-full border border-ink/20">
+          <article className="flex h-full flex-col bg-cream p-7">
+            <span className="grid size-10 place-items-center border border-ink/20">
               <Icon name="arrow-up-right" />
             </span>
             <p className="mt-auto pt-10 text-[15px] leading-relaxed">
@@ -91,18 +63,18 @@ export function Intro() {
         </Reveal>
 
         <Reveal delay={100} className="h-full">
-          <article className="intro-photo relative h-full min-h-[340px] overflow-hidden rounded-[4px]">
+          <article className="relative h-full min-h-[340px] overflow-hidden">
             <Image src={intro.photo} alt={`Réalisation ${settings.siteName}`} fill className="object-cover" sizes="(min-width:768px) 33vw, 100vw" />
-            <div className="absolute inset-0 bg-gradient-to-b from-ink/40 to-transparent to-40%" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-transparent to-40%" />
             <h3 className="absolute top-6 left-7 text-2xl font-medium tracking-[-0.02em] text-white">{intro.photoTitle}</h3>
           </article>
         </Reveal>
 
         <Reveal delay={200} className="h-full">
-          <article className="flex h-full flex-col rounded-[4px] bg-cream p-7">
-            <div className="intro-fan relative mx-auto h-44 w-full max-w-[260px]">
+          <article className="flex h-full flex-col bg-cream p-7">
+            <div className="relative mx-auto h-44 w-full max-w-[260px]">
               {intro.fanImages.slice(0, 3).map((src, k) => (
-                <div key={k} className={`absolute h-32 w-24 overflow-hidden rounded-[4px] border-4 border-white shadow-lg ${FAN[k]}`}>
+                <div key={k} className={`absolute h-32 w-24 overflow-hidden border-4 border-white ${FAN[k]}`}>
                   <Image src={src} alt={`Réalisation ${settings.siteName}`} fill className="object-cover" sizes="120px" />
                 </div>
               ))}
@@ -118,7 +90,7 @@ export function Intro() {
       <Reveal delay={100} className="mt-14 grid grid-cols-2 gap-8 text-center md:grid-cols-4">
         {intro.stats.map((k) => (
           <div key={k.label}>
-            <p className="text-4xl font-medium tracking-[-0.04em]">
+            <p className="font-title text-5xl tracking-[-0.02em] text-wood">
               <Counter to={k.value ?? 0} suffix={k.suffix} />
             </p>
             <p className="mt-2 text-sm text-muted">{k.label}</p>
